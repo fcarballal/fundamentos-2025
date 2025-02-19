@@ -729,6 +729,7 @@ En este caso, para poder aplicar la regla se debe cumplir la condición (cond). 
 		\hypo{\Gamma\vdash\exists x~\phi}\hypo{\Gamma,\phi\vdash\psi}\infer2[($x\not\in\te{FV}(\Gamma,\psi)$)]{\Gamma\vdash\psi}
 	\end{prooftree}
 \end{align*}
+\end{definicion}
 La mayoría de las reglas de deducción son o bien de introducción o bien de eliminación para algún <<elemento lógico>>. Las reglas de introducción nos dicen cómo hacer si queremos probar el elemento lógico, mientras que las de eliminación nos dicen cómo podemos usar ese elemento lógico para probar otras cosas. Analicemos algunas de las reglas.
 
 \subsubsection{Reglas de la implicación}
@@ -762,11 +763,71 @@ $$\begin{prooftree}
 \end{prooftree}$$
 La idea es que del lado de arriba estamos probando $\phi(x)$ con un $x$ \textbf{genérico} y en base a eso deducimos que la propiedad se cumple para todo $x$. Es como cuando una dice <<sea~$x$ cualquiera>> y procede a probar que la propiedad se cumple para ese. La genericidad del $x$ es por la condición $x\not\in FV(\Gamma)$, lo cual significa que en las hipótesis de $\Gamma$ no se está imponiendo ninguna condición sobre $x$. Es muy importante verificar que la condición se cumple para aplicar la regla, porque sino se puede llegar a cosas falsas.
 \begin{ejercicio}
-	Dar interpretaciones como las anteriores para las otras reglas. Sugerencia para la eliminación del existencial: usar la notación $\phi(x)$ y considerar lo siguiente, <<sé que existe un $x$ que cumple cierta propiedad; sea $x$ un elemento que la cumple; uso ese $x$ para probar algo>>.
+	Dar interpretaciones como las anteriores para las otras reglas. Sugerencia para la eliminación del existencial: usar la notación $\phi(x)$ y considerar lo siguiente, <<sé que existe un $x$ que cumple cierta propiedad; sea $x$ un elemento que la cumple; uso ese $x$ para probar otra cosa>>.
 \end{ejercicio}
 
-	
+Finalmente definiremos las derivaciones: objetos formales que modelan el razonamiento matemático.
+\begin{definicion}[Derivaciones]
+	Las derivaciones son los objetos que se definen inductivamente a partir las reglas de deducción. En otras palabras, son árboles de secuentes en los que cada nodo es la aplicación válida de alguna regla de deducción. A modo de ejemplo, con la notación usada hasta ahora para definiciones por inducción, la regla axioma y la de eliminación de la implicación se pueden escribir de la siguiente forma.
+	\begin{enumerate}
+		\item \textbf{RB)} Para todo secuente $\Gamma\vdash\phi$ tal que $\phi\in\Gamma$, tenemos que \begin{prooftree}\infer0{\Gamma\vdash\phi}\end{prooftree} es una derivación.
+		\item \textbf{RI)} Para todo contexto $\Gamma$ y todo par de fórmulas $\phi,\psi$, si \begin{prooftree}
+			\hypo{d_0}\ellipsis{}{\Gamma\vdash\phi\Ra\psi}
+		\end{prooftree} y \begin{prooftree}
+		\hypo{d_1}\ellipsis{}{\Gamma\vdash\phi}
+		\end{prooftree} son derivaciones, entonces\quad \begin{prooftree}
+			\hypo{d_0}\ellipsis{}{\Gamma\vdash\phi\Ra\psi}
+			\hypo{d_1}\ellipsis{}{\Gamma\vdash\phi}
+			\infer2{\Gamma\vdash\psi}
+		\end{prooftree} \quad es una derivación.
+	\end{enumerate}
+	Decimos que un secuente $\Gamma\vdash\phi$ es derivable si existe una derivación con ese secuente como raiz. En general afirmar un secuente significará que es derivable. Cuando un secuente con contexto vacío $\vdash\phi$ es derivable, diremos que $\phi$ es una tautología.
 \end{definicion}
+
+Veamos algunos ejemplos de derivaciones. Es necesario practicar bastante. En cada uno de los siguientes ejemplos, identificar qué regla de deducción se está usando en cada paso. Primero derivemos $\vdash\forall x~\phi(x)\Ra\exists x~\phi(x)$. En este secuente $\phi(x)$ es una subfórmula genérica. La derivación siguiente funciona para cualquier fórmula $\phi(x)$ particular.
+\begin{center}
+	\begin{prooftree}
+		\infer0{\forall x~\phi(x)\vdash\forall x~\phi(x)}
+		\infer1{\forall x~\phi(x)\vdash \phi(x)}
+		\infer1{\forall x~\phi(x)\vdash\exists x~\phi(x)}
+		\infer1{\vdash \forall x~\phi(x)\Ra\exists x~\phi(x)}
+	\end{prooftree}
+\end{center}
+De abajo hacia arriba, las reglas que se usan son introducción de implicación, introducción de existe, eliminación de para todo y axioma. Tanto en la introducción de existe como en la eliminación de para todo hay una sustitución. En este caso, ambas veces se utiliza la sustitución trivial $[x:=x]$.
+
+Ahora derivemos $\vdash x=y\Ra y=x$.
+\begin{center}
+\begin{prooftree}
+	\infer0[(Ax)]{x=y\vdash x=y}
+	\infer0[(=i)]{x=y \vdash x=x}
+	\infer2[(=e)]{x=y\vdash y=x}
+	\infer1{\vdash x=y\Ra y=x}
+\end{prooftree}
+\end{center}
+En algunos casos puede ser buena idea indicar qué regla se está usando a la derecha, para facilitar la lectura. Para la eliminación de igualdad, la fórmula $\phi(z)$ que se usa es $z=x$, de modo que $z=x[z:=x]\equiv x=x$ y $z=x[z:=y]\equiv y=x$.
+
+En general un caso difícil es el de utilizar la regla de absurdo. Por lo general es necesaria cuando se debe probar una disyuntiva en la que no se sabe qué lado se cumple. Por ejemplo, el tercero excluido: $\vdash\phi\vee\lnot\phi$. Claramente es válido, pero al no saber nada de $\phi$, no sabemos cual de las dos opciones es la que se cumple. Una derivación es la siguiente.
+
+\begin{center}
+	\begin{prooftree}
+		\infer0{\lnot(\phi\vee\lnot\phi)\vdash\lnot(\phi\vee\lnot\phi)}
+		\infer0{\lnot(\phi\vee\lnot\phi),\phi\vdash\lnot(\phi\vee\lnot\phi)}
+		\infer0{\lnot(\phi\vee\lnot\phi),\phi\vdash\phi}
+		\infer1[($\vee$i1)]{\lnot(\phi\vee\lnot\phi),\phi\vdash\phi\vee\lnot\phi}
+		\infer2{\lnot(\phi\vee\lnot\phi),\phi\vdash\bot}
+		\infer1{\lnot(\phi\vee\lnot\phi)\vdash\lnot\phi}
+		\infer1[($\vee$i2)]{\lnot(\phi\vee\lnot\phi)\vdash\phi\vee\lnot\phi}
+		\infer2{\lnot(\phi\vee\lnot\phi)\vdash\bot}
+		\infer1[(Abs)]{\vdash\phi\vee\lnot\phi}
+	\end{prooftree}
+\end{center}
+Cabe destacar que sin la regla de reducción al absurdo no se puede derivar el secuente anterior (el estudio de qué se puede derivar sin absurdo está comprendido en la denominada <<lógica intuicionista>>).
+
+
+
+
+
+
 
 \end{document}
 
