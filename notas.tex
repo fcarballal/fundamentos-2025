@@ -781,7 +781,7 @@ Finalmente definiremos las derivaciones: objetos formales que modelan el razonam
 			\infer2{\Gamma\vdash\psi}
 		\end{prooftree} \quad es una derivación.
 	\end{enumerate}
-	Decimos que un secuente $\Gamma\vdash\phi$ es derivable si existe una derivación con ese secuente como raiz. En general afirmar un secuente significará que es derivable. Cuando un secuente con contexto vacío $\vdash\phi$ es derivable, diremos que $\phi$ es una tautología.
+	Decimos que un secuente $\Gamma\vdash\phi$ es derivable si existe una derivación $d$ con ese secuente como raiz. En ese caso escribiremos $d:\Gamma\vdash\phi$. En general afirmar un secuente significará que es derivable. Cuando un secuente con contexto vacío $\vdash\phi$ es derivable, diremos que $\phi$ es una tautología.
 \end{definicion}
 
 Veamos algunos ejemplos de derivaciones. Es necesario practicar bastante. En cada uno de los siguientes ejemplos, identificar qué regla de deducción se está usando en cada paso. Primero derivemos $\vdash\forall x~\phi(x)\Ra\exists x~\phi(x)$. En este secuente $\phi(x)$ es una subfórmula genérica. La derivación siguiente funciona para cualquier fórmula $\phi(x)$ particular.
@@ -822,6 +822,48 @@ En general un caso difícil es el de utilizar la regla de absurdo. Por lo genera
 	\end{prooftree}
 \end{center}
 Cabe destacar que sin la regla de reducción al absurdo no se puede derivar el secuente anterior (el estudio de qué se puede derivar sin absurdo está comprendido en la denominada <<lógica intuicionista>>).
+
+Como las derivaciones se definen de forma inductiva, se puede utilizar inducción estructural para probar que una propiedad se cumple para toda derivación.
+
+Introducimos ahora el concepto de regla admisible, que es una regla que no está incluida en el sistema de deducción pero que de todos modos es <<válida>>.
+\begin{definicion}[Reglas admisibles]
+	Dados secuentes $S_1\cdots S_n$ y $S$, la regla:
+	\begin{center}
+	\begin{prooftree}
+		\hypo{S_1}
+		\hypo{\cdots}
+		\hypo{S_n}
+		\infer[double]3{S}
+	\end{prooftree}
+	\end{center}
+	es admisible (denotada con doble raya) si siempre que los secuentes $S_1\cdots S_n$ son derivables, se tiene que el secuente $S$ también lo es.
+\end{definicion}
+Cuando una regla es admisible, si la agregamos a las reglas de deducción no permite probar nuevos secuentes. Las siguientes son algunas reglas admisibles.
+$$
+\begin{prooftree}
+	\hypo{\Gamma\vdash\phi}
+	\infer[double]1{\Gamma[x:=t]\vdash\phi[x:=t]}
+\end{prooftree}\qquad
+\begin{prooftree}
+	\hypo{\Gamma\vdash\phi}
+	\infer[double]1[($\Gamma\subseteq\Gamma'$)]{\Gamma'\vdash\phi}
+\end{prooftree}\qquad
+\begin{prooftree}
+\hypo{\Gamma\vdash\bot}
+\infer[double]1{\Gamma\vdash\phi}
+\end{prooftree}
+$$
+La primera regla se llama <<de sustitución>>. La notación $\Gamma[x:=t]$ significa el contexto que resulta al aplicar el remplazo en todas las fórmulas de $\Gamma$. La regla dice que si remplazamos una variable por un término a ambos lados de un secuente derivable, el resultado es otro secuente derivable. Se prueba por inducción en el tamaño de la derivación.
+
+La segunda regla es la de debilitamiento. Intuitivamente dice que si agregamos hipótesis (agrandamos el contexto) a un secuente derivable, el resultado sigue siendo un secuente derivable. Se prueba por inducción utilizando la regla de sustitución.
+
+La tercera regla se suele llamar <<ex falso quad libet>>. Nos dice que si un contexto $\Gamma$ es inconsistente, entonces deriva cualquier fórmula $\phi$. Esto es por el debilitamiento y la regla de reducción al absurdo.
+
+Las pruebas por inducción llevan bastante tiempo (por la cantidad de casos) y requieren tener claro el manejo de las variables libres y ligadas. Por ejemplo para la regla de sustitución, lo que se prueba por inducción es que para toda derivación $d:\Gamma\vdash\phi$, existe una derivación $d':\Gamma[x:=t]\vdash\phi[x:=t]$. De hecho se puede pedir también que la derivación $d'$ tenga el mismo tamaño que la derivación $d$.
+
+\section{Teorías}
+
+\subsection{Extensiones conservativas}
 
 
 
