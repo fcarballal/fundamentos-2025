@@ -60,7 +60,7 @@
 
 \chapter{Elementos de lógica de primer orden}
 
-La lógica de primer orden es la base de la formalización de la matemática. Permite definir precisamente nociones como la de teorema y demostración. Esto además de su interés intrínseco, abre la puerta a la verificación automática de demostraciones, lo cual permite utilizar computadoras para verificar todos los detalles de una prueba.
+La lógica de primer orden es un marco de formalización de la matemática. Permite definir precisamente nociones como la de teorema y demostración. Esto además de su interés intrínseco, abre la puerta a la verificación automática de demostraciones, lo cual permite utilizar computadoras para verificar todos los detalles de una prueba. Como la denominación <<de primer orden>> sugiere, hay otros tipos de lógicas de mayor orden, pero cabe aclarar que no son indispensables para formalizar la matemática.
 
 \section{Introducción}
 
@@ -363,6 +363,8 @@ Definiremos por recursión funciones que retornan las variables libres de térmi
 		\item Dada la fórmula $\forall x ~x=y\vee x\leq 0\Ra \lnot y=z\wedge \bot$ escribirla como árbol y calcularle paso a paso $FV$. Repetir para alguna otra fórmula a elección.
 	\end{enumerate}
 \end{ejercicio}
+
+Decimos que una fórmula $\phi$ es \textbf{cerrada} si $FV(\phi)=\varnothing$, es decir, si no tiene variables libres.
 
 Definimos también funciones que retornan todas las variables que aparecen, incluyendo las de los cuantificadores. A estas funciones las llamaremos $V$. La definición es la misma que con $FV$ salvo por el caso de las cuantificaciones: $V(\forall x~\phi)=V(\exists x~\phi):=V(\phi)\cup\{x\}$. Dada una fórmula $\phi$ y una variable $y$, decimos que $y$ es \textbf{fresca} para $\phi$ si $y\not\in V(\phi)$. Intuitivamente es una variable que aún no se ha usado.
 
@@ -862,6 +864,24 @@ La tercera regla se suele llamar <<ex falso quad libet>>. Nos dice que si un con
 Las pruebas por inducción llevan bastante tiempo (por la cantidad de casos) y requieren tener claro el manejo de las variables libres y ligadas. Por ejemplo para la regla de sustitución, lo que se prueba por inducción es que para toda derivación $d:\Gamma\vdash\phi$, existe una derivación $d':\Gamma[x:=t]\vdash\phi[x:=t]$. De hecho se puede pedir también que la derivación $d'$ tenga el mismo tamaño que la derivación $d$.
 
 \section{Teorías}
+
+Ahora nos encaminamos a formalizar otra noción fundamental en la matemática, como es la de <<teoría>>.
+\begin{definicion}[Teorías de primer orden]
+	Una teoría de primer orden $\mathcal{T}$ está dada por un \textbf{lenguaje} de primer orden $\mathcal{L}$ y un conjunto de \textbf{axiomas} $\te{Ax}(\mathcal{T})$. El lenguaje de primer orden está dado por un vocabulario $\mathtt{V}$ y consta de los conjuntos de términos, fórmulas, secuentes, etc, inducidos por el vocabulario. El conjunto de axiomas es un conjunto (finito o infinito) de fórmulas cerradas.
+	
+	Definimos el conjunto de teoremas de la teoría, $\te{Th}(\mathcal{T})$, como:
+	$$ \te{Th}(\mathcal{T})~:=~\{\phi\in\mathcal{L}~:~\exists\Gamma\subseteq \te{Ax}(\mathcal{T}),~\Gamma\vdash\phi\}
+	$$
+	Donde $\phi\in\mathcal{L}$ significa que $\phi$ es una fórmula del lenguaje $\mathcal{L}$. Recordar que afirmar $\Gamma\vdash\phi$ significa que existe una derivación del secuente.
+	
+	Decimos que $\mathcal{T}\vdash\phi$ si $\phi\in \te{Th}(\mathcal{T})$.
+\end{definicion}
+Esto es algo fundamental que se mencionó al principio, pero cabe recordar que en lugar de formalizar la matemática desde cero, se parte de una matemática intuitiva, llamada metateoría. En esta sección usamos bastante una noción básica de conjunto, para habalar de los axiomas y teoremas de las teorías.
+
+\begin{prop}
+	El conjunto $\te{Th}(\mathcal{T})$ es cerrado por consecuencia lógica, es decir...
+\end{prop}
+
 
 \subsection{Extensiones conservativas}
 
