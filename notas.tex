@@ -865,12 +865,12 @@ Las pruebas por inducción llevan bastante tiempo (por la cantidad de casos) y r
 
 \section{Teorías}
 
-Ahora nos encaminamos a formalizar otra noción fundamental en la matemática, como es la de <<teoría>>.
+Ahora formalizaremos otra noción fundamental en la matemática: la de <<teoría>>.
 \begin{definicion}[Teorías de primer orden]
 	Una teoría de primer orden $\mathcal{T}$ está dada por un \textbf{lenguaje} de primer orden $\mathcal{L}$ y un conjunto de \textbf{axiomas} $\te{Ax}(\mathcal{T})$. El lenguaje de primer orden está dado por un vocabulario $\mathtt{V}$ y consta de los conjuntos de términos, fórmulas, secuentes, etc, inducidos por el vocabulario. El conjunto de axiomas es un conjunto (finito o infinito) de fórmulas cerradas.
 	
-	Definimos el conjunto de teoremas de la teoría, $\te{Th}(\mathcal{T})$, como:
-	$$ \te{Th}(\mathcal{T})~:=~\{\phi\in\mathcal{L}~:~\exists\Gamma\subseteq \te{Ax}(\mathcal{T}),~\Gamma\vdash\phi\}
+	Definimos el conjunto de \textbf{teoremas} de la teoría, $\te{Th}(\mathcal{T})$, como:
+	$$ \te{Th}(\mathcal{T})~:=~\{\phi\in\mathcal{L}~:~\phi\te{ cerrada y }\exists\Gamma\subseteq \te{Ax}(\mathcal{T}),~\Gamma\vdash\phi\}
 	$$
 	Donde $\phi\in\mathcal{L}$ significa que $\phi$ es una fórmula del lenguaje $\mathcal{L}$. Recordar que afirmar $\Gamma\vdash\phi$ significa que existe una derivación del secuente.
 	
@@ -878,10 +878,19 @@ Ahora nos encaminamos a formalizar otra noción fundamental en la matemática, c
 \end{definicion}
 Esto es algo fundamental que se mencionó al principio, pero cabe recordar que en lugar de formalizar la matemática desde cero, se parte de una matemática intuitiva, llamada metateoría. En esta sección usamos bastante una noción básica de conjunto, para habalar de los axiomas y teoremas de las teorías.
 
-\begin{prop}
-	El conjunto $\te{Th}(\mathcal{T})$ es cerrado por consecuencia lógica, es decir...
-\end{prop}
+Notar que al definir objetos matemáticos que representan teoremas, podemos hablar de conjuntos de teoremas. Usualmente en matemática probamos teoremas que hablan de objetos matemáticos, siendo los teoremas un objeto del lenguaje (se podría decir), que claramente está en otro <<universo>> que los objetos matemáticos. Es decir, los teoremas son lo que nosotros escribimos, mientras que los objetos matemáticos sobre los que los teoremas hablan son objetos abstractos. Sin embargo, aquí estamos definiendo teoremas como objetos matemáticos, lo cual permite que interactúen con otros objetos matemáticos <<como iguales>>. Si queremos podemos, por ejemplo, definir conjuntos de fórmulas por comprensión y trabajar con ellos. En teoría de modelos (tema fuera del alcance del curso) se suele hacer interactuar fórmulas con conceptos matemáticos más abstractos (sea usar el axioma de elección, o conceptos de topología o medida).
 
+\begin{prop}
+	El conjunto $\te{Th}(\mathcal{T})$ es cerrado por consecuencia lógica, es decir, si $\phi_1,\dots,\phi_n\in\te{Th}(\mathcal{T})$ y $\phi_1,\dots,\phi_n\vdash\psi$, entonces $\psi\in\te{Th}(\mathcal{T})$.
+\end{prop}
+\begin{proof}
+	Sean $\Gamma_1,\dots\Gamma_n\subseteq\te{Ax}(\mathcal{T})$ y  $d_i:\Gamma_i\vdash\phi_i$ para $i=1,\dots,n$ y además $d_0:\phi_1,\dots\phi_n\vdash\psi$ (todo esto se deduce de las hipótesis). Precisamos $\Gamma\subseteq\te{Ax}(\mathcal{T})$ tal que $\Gamma\vdash\psi$, o sea que exista una derivación $d:\Gamma\vdash\psi$. Usamos $\Gamma = \Gamma_1\cup\cdots\cup\Gamma_n$ y construimos la derivación como sigue.
+	
+	A partir de $d_0$, aplicando $n$ veces introducción de existencial y luego debilitamiento (para agregar $\Gamma$) obtenemos $d'_0:\Gamma\vdash\phi_1\Ra(\phi_2\Ra(\cdots\Ra(\phi_n\Ra\psi)\cdots)$. Por otra parte, por debilitamiento, para cada $i=1,\dots,n$ obtenemos $d'_i:\Gamma\vdash\phi$. Juntando estas derivaciones <<primas>> con $n$ eliminaciones de la implicación, tenemos $d:\Gamma\vdash\psi$.
+\end{proof}
+Esta proposición anterior nos asegura el hecho intuitivamente claro de que si algo se puede demostrar en base a teoremas anteriores, también se puede demostrar a partir de los axiomas.
+
+Veamos algunos ejemplos de teorías.
 
 \subsection{Extensiones conservativas}
 
