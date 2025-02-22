@@ -256,7 +256,7 @@ El principio de inducción y el de recursión son los siguientes.
 	\end{enumerate}
 \end{ejercicio}
 
-\section{Lenguajes de primer orden}
+\section{Lenguajes de primer orden}\label{sec-LPO}
 
 Comenzaremos a definir los elementos sintácticos de la lógica de primer orden. Un resultado de esto será tener una noción formal de enunciado matemático. Recordar que no vamos a intentar formalizar la matemática desde fuera, sino que definiremos matemáticamente <<objetos matemáticos que modelan al lenguaje y razonamiento matemático>> y razonaremos matemáticamente de modo usual sobre esos objetos. Usaremos con soltura las técnicas de definición y demostración introducidas en la sección \ref{sec-IndEstr}.
 
@@ -874,9 +874,11 @@ Ahora formalizaremos otra noción fundamental en la matemática: la de <<teoría
 	$$
 	Donde $\phi\in\mathcal{L}$ significa que $\phi$ es una fórmula del lenguaje $\mathcal{L}$. Recordar que afirmar $\Gamma\vdash\phi$ significa que existe una derivación del secuente.
 	
-	Decimos que $\mathcal{T}\vdash\phi$ si $\phi\in \te{Th}(\mathcal{T})$.
+	Escribimos $\mathcal{T}\vdash\phi$ si $\phi\in \te{Th}(\mathcal{T})$.
+	
+	Decimos que $\mathcal{T}$ es \textbf{consistente} si $\mathcal{T}\not\vdash\bot$, es decir, si $\bot\not\in\te{Th}(\mathcal{T})$.
 \end{definicion}
-Esto es algo fundamental que se mencionó al principio, pero cabe recordar que en lugar de formalizar la matemática desde cero, se parte de una matemática intuitiva, llamada metateoría. En esta sección usamos bastante una noción básica de conjunto, para habalar de los axiomas y teoremas de las teorías.
+Cabe recordar que en lugar de formalizar la matemática desde cero, se parte de una matemática intuitiva, llamada metateoría. En esta sección usamos bastante una noción básica de conjunto, para habalar de los axiomas y teoremas de las teorías.
 
 Notar que al definir objetos matemáticos que representan teoremas, podemos hablar de conjuntos de teoremas. Usualmente en matemática probamos teoremas que hablan de objetos matemáticos, siendo los teoremas un objeto del lenguaje (se podría decir), que claramente está en otro <<universo>> que los objetos matemáticos. Es decir, los teoremas son lo que nosotros escribimos, mientras que los objetos matemáticos sobre los que los teoremas hablan son objetos abstractos. Sin embargo, aquí estamos definiendo teoremas como objetos matemáticos, lo cual permite que interactúen con otros objetos matemáticos <<como iguales>>. Si queremos podemos, por ejemplo, definir conjuntos de fórmulas por comprensión y trabajar con ellos. En teoría de modelos (tema fuera del alcance del curso) se suele hacer interactuar fórmulas con conceptos matemáticos más abstractos (sea usar el axioma de elección, o conceptos de topología o medida).
 
@@ -891,6 +893,53 @@ Notar que al definir objetos matemáticos que representan teoremas, podemos habl
 Esta proposición anterior nos asegura el hecho intuitivamente claro de que si algo se puede demostrar en base a teoremas anteriores, también se puede demostrar a partir de los axiomas.
 
 Veamos algunos ejemplos de teorías.
+
+\subsubsection{Teoría de grupos}
+
+Denotaremos a esta teoría Grp. El vocabulario está dado por dos símbolos de función: uno de aridad 2, <<$*$>>, para el cual usamos notación infija (es decir, $\_*\_$) y un símbolo de constante~$e$ (es decir, símbolo de función de aridad 0). No hay símbolos de predicado. Los axiomas son los siguientes tres:
+\newpage
+$$\forall x\forall y\forall z,~(x*y)*z=x*(y*z)
+$$
+$$\forall x,~x*e=x\wedge e*x=x
+$$
+$$\forall x\exists y,~x*y=e\wedge y*x=e
+$$
+La teoría de grupos conmutativos es la que resulta de agregar el axioma de conmutatividad, es decir, $\forall x\forall y~x*y=y*x$. Al trabajar en esta teoría, la idea es que los <<posbiles valores de las variables>> son elementos de un grupo; los objetos matemáticos con los que trabajamos son elementos de un grupo. Notar que esta teoría no nos permite hablar de subgrupos ni de funciones entre distintos grupos, pues las variables representan solamente elementos de un grupo dado. Para hacer eso otro (lo usual en un curso de teoría de grupos), se necesita una teoría más general, dentro de la cual tengamos grupos pero también conjuntos y funciones. Un ejemplo es la teoría de conjuntos que veremos en este curso.
+
+\begin{ejercicio}
+	Dar un enunciado $\phi$ de la unicidad del neutro y probar que $\te{Grp}\vdash\phi$.
+\end{ejercicio}
+
+\subsubsection{Aritmética de Peano}
+
+La aritmética de Peano, denotada PA, tiene cuatro símbolos de función:
+\begin{itemize}
+	\item Dos de aridad 2 con notación infija: <<$+$>> y <<$\times$>>.
+	\item Uno de aridad 1: $s$, que representa la función sucesor (<<$s(n)=n+1$>>).
+	\item Una constante: <<$0$>>.
+\end{itemize}
+
+Los axiomas de la aritmética de Peano son los siguientes: dos para definir la suma, dos para definir el producto, uno para indicar que el sucesor es inyectivo, uno para indicar que $0$ no es el sucesor de nadie y luego el esquema de inducción.
+\begin{enumerate}\parskip-.5ex
+	\item[$(A_1)$] $\forall x\,(x+0=x)$
+	\item[$(A_2)$] $\forall x\,\forall y\,(x+s(y)=s(x+y))$
+	\item[$(A_3)$] $\forall x\,(x\times 0=0)$
+	\item[$(A_4)$] $\forall x\,\forall y\,(x\times s(y)=(x\times y)+x)$
+	\item[$(A_5)$] $\forall x\,\forall y\,(s(x)=s(y)\Ra x=y)$
+	\item[$(A_6)$] $\forall x\,(s(x)\neq 0)$
+	\item[$(A_7)$] $\forall\vec{z}\,\bigl(\phi[x:=0]\land
+	\forall x\,(\phi\Ra\phi[x:=s(x)])\Ra\forall x\,\phi\bigr)$\\
+	para toda fórmula $\phi$ con variables libres
+	$\vec{z}\equiv x_1,\ldots,x_k$ y~$x$.
+\end{enumerate}
+El esquema de inducción es de hecho un conjunto de infinitos axiomas, uno para cada fórmula $\phi$ con alguna variable libre $x$, y por lo tanto la aritmética de Peano tiene infinitos axiomas. El caso en el que la fórmula $\phi$ solamente tiene a $x$ como variable libre puede escribirse intuitivamente como $\phi(0)\wedge\forall x(\phi(x)\Ra\phi(s(x)))\Ra\forall x~\phi(x)$. Cuando $\phi$ tiene otras variables libres $\vec{z}=x_1,\dots,x_n$, estas variables juegan el rol de parámetros y van cuantificadas universalmente al principio ($\forall z$ represente $\forall x_1\dots\forall x_n$). Si por ejemplo la fórmula es $\phi\equiv x+y=y+x$, entonces $y$ es un parámetro y el axioma es el siguiente: 
+$$\forall y~(0+y=y+0~\wedge~\forall x(x+y=y+x\Ra s(x)+y=y+s(x))~~\Ra~~\forall x~x+y=y+x)$$
+
+En la Aritmética de Peano las variables representan números naturales. En principio solamente se puede hablar de estos, pero esta teoría resulta ser mucho más expresiva de lo que puede parecer a primera vista. Esto es porque se puede definir la exponencial (de forma no trivial), a partir de eso hablar de descomposición en primos y utilizarla para codificar cualquier estructura finita. Por ejemplo, si quisiéramos hablar de pares de números naturales, podríamos hacerlo representándolos como $(n,m)\equiv 2^n3^m$. En particular, en PA se pueden codificar todas las construcciones realizadas en la sección \ref{sec-LPO} y demostrar todas las propiedades.
+
+\begin{ejercicio}
+	Demostrar en la aritmética de Peano la fórmula $\forall x~0+x=x$.
+\end{ejercicio}
 
 \subsection{Extensiones conservativas}
 
