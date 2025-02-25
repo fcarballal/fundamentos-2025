@@ -907,7 +907,7 @@ $$
 La teoría de grupos conmutativos es la que resulta de agregar el axioma de conmutatividad, es decir, $\forall x\forall y~x*y=y*x$. Al trabajar en esta teoría, la idea es que los <<posbiles valores de las variables>> son elementos de un grupo; los objetos matemáticos con los que trabajamos son elementos de un grupo. Notar que esta teoría no nos permite hablar de subgrupos ni de funciones entre distintos grupos, pues las variables representan solamente elementos de un grupo dado. Para hacer eso otro (lo usual en un curso de teoría de grupos), se necesita una teoría más general, dentro de la cual tengamos grupos pero también conjuntos y funciones. Un ejemplo es la teoría de conjuntos que veremos en este curso.
 
 \begin{ejercicio}
-	Dar un enunciado $\phi$ de la unicidad del neutro y probar que $\te{Grp}\vdash\phi$.
+	Enunciar y probar en Grp la unividad del neutro y los inversos.
 \end{ejercicio}
 
 \subsubsection{Aritmética de Peano}
@@ -941,11 +941,71 @@ En la Aritmética de Peano las variables representan números naturales. En prin
 	Demostrar en la aritmética de Peano la fórmula $\forall x~0+x=x$.
 \end{ejercicio}
 
+\subsubsection{Teoría de conjuntos de Frege}
+
+Se trata de un intento temprano de axiomatización de teoría de conjuntos. Debido a la paradoja de Russell, es una teoría inconsistente, pero de todos modos aportó para llegar a la presentación de Zermelo Fraenkel, que veremos en este curso. La presentación que damos ahora no es la de Frege.
+
+Respecto al lenguaje, a diferencia de las teorías anteriores, no hay símbolos de función (ni de constante). Solmente hay un símbolo de relación, <<$\in$>>, de aridad 2. Tiene un axioma y un esquema de axiomas (por lo tanto, infinitos axiomas). El axioma es el de extensionalidad y el esquema es el de comprensión irrestricta.
+\begin{enumerate}\parskip-.5ex
+	\item[$(A_1)$] $\forall x\forall y\,\bigl(\forall z(z\in x\Lra z\in y)\Ra x=y\bigr)$
+	\item[$(A_2)$] $\forall\vec{z}\,\exists y\forall x(x\in y\Lra \phi)$\\
+	para toda fórmula $\phi$ con variables libres
+	$\vec{z}\equiv x_1,\ldots,x_k$ y~$x$.
+\end{enumerate}
+El primer axioma dice que dos conjuntos $x,y$ con los mismos elementos son el mismo conjunto. El esquema de axiomas nos dice que para cualquier propiedad $\phi$ con parámetros~$\vec{z}$, para cualquier elección de los parámetros, existe un conjunto $y$ conformado por los elementos $x$ que cumplen la propiedad. En el caso de que la fórmula $\phi$ tiene solamente a $x$ como variable libre, se puede escribir como $\exists y\forall x(x\in y\Lra \phi(x))$, es decir que existe un conjunto $y$ conformado solamente por los elementos $x$ que cumplen la propiedad $\phi(x)$.
+
+La paradoja de Russell consiste en considerar la propiedad $\phi(x)\equiv x\not\in x$, tomar el $y$ tal que $\forall x(x\in y\Lra \phi(x))$ y luego instanciar la variable $x$ (es decir, tomar el caso particular) en $x\equiv y$, llegando a que $y\in y\Lra y\not\in y$, lo cual es contradictorio.
+
+\begin{ejercicio}
+	Probar formalmente la inconsistencia de esta teoría. Se puede hacer sin utilizar la regla de reducción al absurdo.
+\end{ejercicio} 
+
 \subsection{Extensiones conservativas}
 
+En matemática es común que extendamos una teoría por practicidad, sin modificar la expresividad. Por ejemplo, cuando tras demostrar que algo existe y es único, introducimos un nuevo símbolo para ese objeto. Nuestra idea es que no estamos cambiando las propiedades que se cumplen, sino que solamente estamos agregando elementos que nos hacen más cómodo trabajar. Para formalizar esto introducimos las extensiones conservativas.
 
+\begin{definicion}[Extensiones y extensiones conservativas]
+	Una teoría $\mathcal{T}'$ es una \textbf{extensión} de otra teoría~$\mathcal{T}$ si se cumplen las siguientes dos propiedades:
+	\begin{enumerate}
+		\item $\mathcal{L}\subseteq\mathcal{L}'$, siendo $\mathcal{L}$ el lenguaje de $\mathcal{T}$ y $\mathcal{L}'$ el lenguaje de $\mathcal{T}'$.
+		\item $\te{Th}(\mathcal{T})\subseteq\te{Th}(\mathcal{T}')$.
+	\end{enumerate}
+	Decimos que la extensión es \textbf{conservariva} si $\te{Th}(\mathcal{T}')\cap\mathcal{L}=\te{Th}(\mathcal{T})$, es decir que los teoremas de $\mathcal{T}'$ que están en el lenguaje de $\mathcal{T}$ (es decir, en el conjunto de fórmulas de $\mathcal{T}$), son también teoremas de $\mathcal{T}$.
+\end{definicion}
+Respecto a la inclusión de lenguajes, se trata de que todos los elementos del lenguaje (términos, fórmulas, etc) cumplen la inclusión. Esto se da si y solo si se cumple la inclusión de los vocabularios. Otra forma de decir la propiedad de conservatividad, es que toda fórmula perteneciente al lenguaje de la primera teoría que se puede demostrar en la segunda, también se puede demostrar en la primera.
 
+Observar que si $\mathcal{T}'$ es una extensión de $\mathcal{T}$, entonces son teorías equiconsistentes, es decir que una es consistente si y solo si la otra también lo es. Esto es porque $\bot\in\mathcal{L}$ para todo lenguaje $\mathcal{L}$. 
 
+\begin{ejercicio}\label{ejer-Extensiones}
+	\begin{enumerate}
+		\item Dadas dos teorías $\mathcal{T}$ y $\mathcal{T}'$ tales que $\mathcal{L}\subseteq\mathcal{L}'$, probar que $\mathcal{T}'$ es extensión de $\mathcal{T}$ si y solo si $\te{Ax}(\mathcal{T})\subseteq\te{Th}(\mathcal{T}')$.
+		\item Consideramos una teoría Grp' que consiste en hacer las siguientes modificaciones a la teoría Grp. Respecto al languaje, agregamos un símbolo de función $I$ de aridad 1. Respecto a los axiomas, cambiamos el tercero por $\forall x,~x*I(x)=e\wedge I(x)*x=e$. Probar que Grp' es una extensión de Grp (de hecho es conservariba, por algo que veremos a continuación).
+	\end{enumerate}
+\end{ejercicio}
+
+Culminamos introduciendo dos tipos de extensiones que son conservativas y que se corresponden con las que se suelen hacer cotidianamente en matemáticas. Usamos la notación $\exists!x~\phi$ para hablar de existencia y unicidad. Se trata de una abreviación de $\exists x,~\phi\wedge\forall y(\phi[x:=y]\Ra y=x)$. Las extensiones de Henkin se correponden con agregar una constante para un elemento que sabemos que existe y es único y las extensiones definicionales se corresponden con agregar un símbolo de función para una correspondencia funcional.
+\begin{definicion}[Extensión de Henkin]
+	Sea $\mathcal{T}$ una teoría tal que $\mathcal{T}\vdash\exists!x~\phi(x)$, siendo $\phi(x)$ una fórmula con $FV(\phi)=\{x\}$. Decimos que $\mathcal{T}'$ es una extensión de Henkin inducida por $\phi(x)$ si:
+	\begin{enumerate}
+		\item $\mathtt{V}(\mathcal{T}')=\mathtt{V}(\mathcal{T})\cup\{c\}$, siendo $c$ un nuevo símbolo de constante.
+		\item $\te{Ax}(\mathcal{T}')=\te{Ax}(\mathcal{T})\cup\{\phi(c)\}$.
+	\end{enumerate}
+\end{definicion}
+En el contexto de teoría de conjuntos, una extensión de Henkin es por ejemplo tener que existe un único conjunto vacío, es decir $\exists!x\forall y~y\not\in x$, e introducir un símbolo $\varnothing$ junto con el axioma $\forall y~y\not\in\varnothing$, al cual intuitivamente consideramos como la definición del conjunto $\varnothing$.
+
+\begin{definicion}[Extensión definicional]
+	Sea $\mathcal{T}$ una teoría tal que $\mathcal{T}\vdash\forall \vec{x}\,\exists!y~\phi(\vec{x},y)$, siendo $\phi(\vec{x},y)$ una fórmula con $FV(\phi)=\{\vec{x},y\}$, donde $\vec{x}=x_1,\dots x_n$. Decimos que $\mathcal{T}'$ es una extensión definicional inducida por $\phi(\vec{x},y)$ si:
+	\begin{enumerate}
+		\item $\mathtt{V}(\mathcal{T}')=\mathtt{V}(\mathcal{T})\cup\{f\}$, siendo $f$ un nuevo símbolo de función de aridad $n$.
+		\item $\te{Ax}(\mathcal{T}')=\te{Ax}(\mathcal{T})\cup\{\forall \vec{x}~\phi(\vec{x},f(\vec{x}))\}$, donde $\phi(\vec{x},f(\vec{x}))$ es $\phi[y:=f(\vec{x})]$.
+	\end{enumerate}
+\end{definicion}
+En las extensiones definicionales, las $n$ variables $\vec{x}=x_1,\dots x_n$ juegan el rol de dominio (o parámetros) de la función y la variable $y$ el de la imagen. La teoría Grp' introducida en el ejercicio \ref{ejer-Extensiones} es esencialmente una extensión definicional de Grp por la propiedad $\forall x\exists!y,~x*y=e\wedge y*x=e$. Como la presentamos no es exactamente una extensión definicional, porque quitamos el tercer axioma al agregar el nuevo axioma, pero como el nuevo axioma implicla al tercero, mantenerlo o no no camiba el conjunto de teoremas.
+
+\begin{prop}
+	Las extensiones de Henkin y definicionales son conservativas.
+\end{prop}
+Esta propiedad también se cumple si quitamos las unicidades en las definiciones de ambas extensiones. En el caso de las extensiones definicionales, pasan a llamarse extensiones de Skolem. Las pruebas de conservatividad se hacen por inducción en las derivaciones o con técnicas de teoría de modelos, pero no entraremos en eso.
 
 
 
