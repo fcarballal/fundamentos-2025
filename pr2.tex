@@ -1,0 +1,368 @@
+\documentclass[a4paper,12pt]{book}
+\usepackage{etex}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fullpage}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{txfonts}
+\usepackage{latexsym}
+\usepackage{stmaryrd}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+%\usepackage[all]{xy}
+\usepackage{proof}
+\usepackage[sans]{dsfont}
+\usepackage[spanish]{babel}
+%%% Lógica
+\def\limp{\Rightarrow}
+\def\Ra{\Rightarrow}
+\def\liff{\Leftrightarrow}
+\def\ForIn#1#2{(\forall#1\,{\in}\,#2)}
+\def\ExIn#1#2{(\exists#1\,{\in}\,#2)}
+\def\ForSub#1#2{(\forall#1\,{\subseteq}\,#2)}
+\def\ExSub#1#2{(\exists#1\,{\subseteq}\,#2)}
+%%% Conjuntos
+\def\N{\mathds{N}}
+\def\Z{\mathds{Z}}
+\def\Q{\mathds{Q}}
+\def\R{\mathds{R}}
+\def\Pow{\mathfrak{P}}
+\def\id{\mathrm{id}}
+\def\dom{\mathrm{dom}}
+\def\img{\mathrm{img}}
+\def\pto{\rightharpoonup}
+\def\into{\hookrightarrow}
+\def\onto{\twoheadrightarrow}
+\def\inonto{\mathbin{\tilde{\to}}}
+%%% Órdenes
+\def\A{\mathcal{A}}
+\def\B{\mathcal{B}}
+\def\C{\mathcal{C}}
+\def\I{\mathcal{I}}
+\def\Seg{\mathit{Seg}}
+%%% Misc.
+\def\Cl{\mathit{Cl}}
+\def\On{\mathit{On}}
+\def\ForOn#1{(\forall#1\,{:}\,\On)}
+\def\ExOn#1{(\exists#1\,{:}\,\On)}
+\def\ds{\displaystyle}
+\def\FV{\mathit{FV}}
+%%%
+\theoremstyle{definition}
+\newtheorem{ejercicio}{Ejercicio}
+\outer\long\def\COUIC#1{}
+\outer\long\def\Solucion#1{\par
+  {\sl\small\noindent\textbf{Solución:}\quad#1\par}}
+%%% Comentar la siguiente línea para mostrar las soluciones
+\outer\long\def\Solucion#1{}
+
+\begin{document}
+
+\noindent
+\centerline{\sc
+Facultad de Ciencias\hfill---\hfill
+Fundamentos de la Matemática\hfill---\hfill
+Segundo semestre de 2018}\smallbreak\hrule
+
+\bigbreak
+\centerline{\Large\textbf{Práctico 2: Deducción natural y teorías}}
+
+\bigbreak
+\paragraph{Definiciones}
+Sea $\mathcal{V}$ el vocabulario de un lenguaje de primer orden.
+\begin{itemize}
+\item Los \emph{términos} (notación: $t$, $u$, $v$, etc.) están
+  definidos por la gramática:
+  $$t,u,v~::=~x~~|~~ f(t_1,\ldots,t_k)$$
+  (donde $f$ es cualquier símbolo de función de aridad~$k$ en el
+  vocabulario~$\mathcal{V}$).
+\item Las \emph{fórmulas} (notación: $\phi$, $\psi$, $\chi$, etc.)
+  están definidas por la gramática:
+  $$\begin{array}{rrl}
+    \phi,\psi,\chi&::=&\top~~|~~\bot~~|~~ t_1=t_2
+    ~~|~~ p(t_1,\ldots,t_k)\\
+    &|&\lnot\phi~~|~~\phi\land\psi~~|~~\phi\lor\psi
+    ~~|~~\phi\limp\psi~~|~~\phi\liff\psi\\
+    &|&\forall x\,\phi~~|~~\exists x\,\phi\\
+  \end{array}\eqno\begin{tabular}{r@{}}
+  (Fórmulas atómicas)\\
+  (Conectivas)\\
+  (Cuantificadores)\\
+  \end{tabular}$$
+  (donde $p$ es cualquier símbolo de predicado de aridad~$k$ en el
+  vocabulario~$\mathcal{V}$).
+\item Los \emph{contextos} (notación: $\Gamma$, $\Delta$, etc.)
+  son los conjuntos finitos de fórmulas:
+  $$\Gamma,\Delta~::=~\phi_1,\ldots,\phi_n\eqno(n\ge 0)$$
+\item Un \emph{secuente} es un par escrito $\Gamma\vdash\phi$
+  («$\phi$ es consecuencia de~$\Gamma$», o «$\Gamma$
+  demuestra~$\phi$»), donde~$\Gamma$ es un contexto (el
+  \emph{antecedente}, cuyos elementos se llaman las \emph{hipótesis}
+  del secuente) y $\phi$ una fórmula  
+  (el \emph{consecuente}, o la \emph{conclusión} del secuente).
+\end{itemize}
+Las reglas de deducción del sistema NK («deducción natural clásica»)
+son las siguientes:
+$$\def\myskip{\medskip}
+\begin{array}{lc@{\qquad}c}
+  (\text{Axioma}) & \multicolumn{2}{c}{
+    \infer[\text{\small(si~$\phi\in\Gamma$)}]
+    {\Gamma\vdash\phi}{}
+  }\\
+  \noalign{\myskip}
+  ({\top},{\bot}) & \begin{array}{c}
+    \infer{\Gamma\vdash\top}{\mathstrut}
+  \end{array} & \begin{array}{c}
+    \infer{\Gamma\vdash\phi}{\Gamma,\lnot\phi\vdash\bot}
+  \end{array}\rlap{\quad(Absurdo)} \\
+  \noalign{\myskip}
+  ({\lnot}) & \begin{array}{c}
+    \infer{\Gamma\vdash\lnot\phi}{\Gamma,\phi\vdash\bot}
+  \end{array} & \begin{array}{c}
+    \infer{\Gamma\vdash\bot}
+    {\Gamma\vdash\phi & \Gamma\vdash\lnot\phi}
+  \end{array} \\
+  \noalign{\myskip}
+  ({\land}) & \begin{array}{c}
+    \infer{\Gamma\vdash\phi\land\psi}
+    {\Gamma\vdash\phi & \Gamma\vdash\psi}
+  \end{array} & \begin{array}{c}
+    \infer{\Gamma\vdash\phi}{\Gamma\vdash\phi\land\psi}\qquad
+    \infer{\Gamma\vdash\psi}{\Gamma\vdash\phi\land\psi}
+  \end{array} \\
+  \noalign{\myskip}
+  ({\lor}) & \begin{array}{c}
+    \infer{\Gamma\vdash\phi\lor\psi}{\Gamma\vdash\phi}\qquad
+    \infer{\Gamma\vdash\phi\lor\psi}{\Gamma\vdash\psi}
+  \end{array} & \begin{array}{c}
+    \infer{\Gamma\vdash\chi}
+    {\Gamma\vdash\phi\lor\psi &
+      \Gamma,\phi\vdash\chi & \Gamma,\psi\vdash\chi}
+  \end{array} \\
+  \noalign{\myskip}
+  ({\limp}) & \begin{array}{c}
+    \infer{\Gamma\vdash\phi\limp\psi}{\Gamma,\phi\vdash\psi}
+  \end{array} & \begin{array}{c}
+    \infer{\Gamma\vdash\psi}
+    {\Gamma\vdash\phi\limp\psi & \Gamma\vdash\phi}
+  \end{array} \\
+  \noalign{\myskip}
+  ({\liff}) & \begin{array}{c}
+    \infer{\Gamma\vdash\phi\liff\psi}{
+      \Gamma,\phi\vdash\psi & \Gamma,\psi\vdash\phi}
+  \end{array} & \begin{array}{c}
+    \infer{\Gamma\vdash\psi}
+    {\Gamma\vdash\phi\liff\psi & \Gamma\vdash\phi}\qquad
+    \infer{\Gamma\vdash\phi}
+    {\Gamma\vdash\phi\liff\psi & \Gamma\vdash\psi}
+  \end{array} \\
+  \noalign{\myskip}
+  ({\forall}) & \begin{array}{c}
+    \infer[\text{\small(si $x\notin\FV(\Gamma)$)}]
+    {\Gamma\vdash\forall x\,\phi}{\Gamma\vdash\phi}
+  \end{array} & \begin{array}{c}
+    \infer{\Gamma\vdash\phi[x:=t]}{\Gamma\vdash\forall x\,\phi}
+  \end{array} \\
+  \noalign{\myskip}
+  ({\exists}) & \begin{array}{c}
+    \infer{\Gamma\vdash\exists x\,\phi}{\Gamma\vdash\phi[x:=t]}
+  \end{array} & \begin{array}{c}
+    \infer[\text{\small(si $x\notin\FV(\Gamma,\psi)$)}]
+    {\Gamma\vdash\psi}
+    {\Gamma\vdash\exists x\,\phi & \Gamma,\phi\vdash\psi}
+  \end{array} \\
+  \noalign{\myskip}
+  ({=}) & \begin{array}{c}
+    \infer{\Gamma\vdash t=t}{\mathstrut}
+  \end{array} & \begin{array}{c}
+    \infer{\Gamma\vdash\phi[x:=u]}
+    {\Gamma\vdash t=u & \Gamma\vdash\phi[x:=t]}
+  \end{array} \\
+\end{array}$$
+
+\newpage
+\paragraph{Reglas admisibles}\label{p:ReglasAdmisibles}
+Dados secuentes $S_{\!1},\ldots,S_{\!p}$ y $S$, se dice que la regla
+\begin{center}
+  $\infer={S}{S_{\!1}~\cdots~S_{\!p}}$
+\end{center}
+es \emph{admisible} (en un sistema de deducción cualquiera) cuando
+cumple la propiedad que:
+\begin{center}
+  Si los secuentes $S_1,\ldots,S_n$ son derivables, entonces
+  el secuente~$S$ es derivable.
+\end{center}
+Es claro que toda regla admisible (indicada tradicionalmente con
+una doble raya de inferencia) se puede agregar al sistema de
+deducción sin cambiar la clase de los secuentes derivables.
+
+En lo siguiente, se autorizará el uso de las reglas admisibles presentadas en el teórico.
+
+\bigbreak
+\begin{ejercicio}
+  --- Derivar las siguientes fórmulas (como secuentes con contexto vacío):
+  \begin{itemize}
+  \item Equivalencias notables del cálculo proposicional:\\[3pt]
+    $\begin{array}{@{}l@{\qquad}l@{}}
+      \phi\land\phi\liff\phi&
+      \phi\lor\phi\liff\phi\\
+      \phi\land\psi\liff\psi\land\phi&
+      \phi\lor\psi\liff\psi\lor\phi\\
+      (\phi\land\psi)\land\chi\liff\phi\land(\psi\land\chi)&
+      (\phi\lor\psi)\lor\chi\liff\phi\lor(\psi\lor\chi)\\
+      \phi\land\top\liff\phi&
+      \phi\lor\bot\liff\phi\\
+      \phi\land\bot\liff\bot&
+      \phi\lor\top\liff\top\\
+      \phi\land(\psi\lor\chi)\liff(\phi\land\psi)\lor(\phi\land\chi)&
+      \phi\lor(\psi\land\chi)\liff(\phi\lor\psi)\land(\phi\lor\chi)\\
+      (\phi\limp\psi\land\chi)\liff(\phi\limp\psi)\land(\phi\limp\chi)&
+      (\phi\limp\psi\lor\chi)\liff(\phi\limp\psi)\lor(\phi\limp\chi)\\
+      (\phi\land\psi\limp\chi)\liff(\phi\limp\chi)\lor(\psi\limp\chi)&
+      (\phi\lor\psi\limp\chi)\liff(\phi\limp\chi)\land(\psi\limp\chi)\\
+      (\top\limp\phi)\liff\phi&(\phi\limp\bot)\liff\lnot\phi\\
+      (\bot\limp\phi)\liff\top&(\phi\limp\top)\liff\top\\
+      (\phi\limp(\psi\limp\chi))\liff(\phi\land\psi\limp\chi)\\
+    \end{array}$
+  \item Equivalencias notables del cálculo de predicados:\\[3pt]
+    $\begin{array}{@{}ll@{\qquad}ll@{}}
+      \forall x\,(\phi\land\psi)\liff
+      \forall x\,\phi\land\forall x\,\psi&&
+      \exists x\,(\phi\lor\psi)\liff
+      \exists x\,\phi\lor\exists x\,\psi\\
+      \forall x\,\phi\lor\forall x\,\psi\limp\forall x\,(\phi\lor\psi)&&
+      \exists x\,(\phi\land\psi)\limp
+      \exists x\,\phi\land\exists x\,\psi\\
+      \forall x\,\phi\liff\phi&
+      \text{\footnotesize(si $x\notin\FV(\phi)$)}&
+      \exists x\,\phi\liff\phi&
+      \text{\footnotesize(si $x\notin\FV(\phi)$)}\\
+      \forall x\,(\phi\land\psi)\liff\phi\land\forall x\,\psi&
+      \text{\footnotesize(si $x\notin\FV(\phi)$)}&
+      \exists x\,(\phi\lor\psi)\liff\phi\lor\exists x\,\psi&
+      \text{\footnotesize(si $x\notin\FV(\phi)$)}\\
+      \forall x\,(\phi\lor\psi)\liff\phi\lor\forall x\,\psi&
+      \text{\footnotesize(si $x\notin\FV(\phi)$)}&
+      \exists x\,(\phi\land\psi)\liff\phi\land\exists x\,\psi&
+      \text{\footnotesize(si $x\notin\FV(\phi)$)}\\
+      \forall x\,(\phi\limp\psi)\liff(\phi\limp\forall x\,\psi)&
+      \text{\footnotesize(si $x\notin\FV(\phi)$)}&
+      \exists x\,(\phi\limp\psi)\liff(\phi\limp\exists x\,\psi)&
+      \text{\footnotesize(si $x\notin\FV(\phi)$)}\\
+      \forall x\,(\phi\limp\psi)\liff(\exists x\,\phi\limp\psi)&
+      \text{\footnotesize(si $x\notin\FV(\psi)$)}&
+      \exists x\,(\phi\limp\psi)\liff(\forall x\,\phi\limp\psi)&
+      \text{\footnotesize(si $x\notin\FV(\psi)$)}\\
+    \end{array}$
+  \item Tautologías clásicas y leyes de De Morgan:\\[3pt]
+    $\begin{array}{l@{\qquad}l}
+      \lnot\lnot\phi\liff\phi&
+      \phi\lor\lnot\phi\\
+      \lnot\top\liff\bot&
+      \lnot\bot\liff\top\\
+      \lnot(\phi\land\psi)\liff\lnot\phi\lor\lnot\psi&
+      \lnot(\phi\lor\psi)\liff\lnot\phi\land\lnot\psi\\
+      \lnot(\phi\limp\psi)\liff\phi\land\lnot\psi&
+      (\phi\limp\psi)\liff\lnot\phi\lor\psi\\
+      \lnot\forall x\,\phi\liff\exists x\,\lnot\phi&
+      \lnot\exists x\,\phi\liff\forall x\,\lnot\phi\\
+      ((\phi\limp\psi)\limp\phi)\limp\phi &
+      \text{(ley de Peirce)} \\
+    \end{array}$
+    \newpage
+  \item Igualdad:\\[3pt]
+    $\begin{array}{ll}
+      \forall x\,(x=x) \\
+      \forall x\,\forall y\,(x=y\limp y=x)\\
+      \forall x\,\forall y\,\forall z\,
+      (x=y\land y=z\limp x=z)\\
+      \forall x\,\forall y\,(x=y\limp
+      t[z:=x]=t[z:=y])\\
+      \forall x\,\forall y\,(x=y\limp
+      (\phi[z:=x]\liff\phi[z:=y]))\\
+    \end{array}$
+  \end{itemize}
+\end{ejercicio}
+
+\bigbreak
+\begin{ejercicio}[Conmutación de cuantificadores]
+  --- El objetivo del ejercicio es mostrar la importancia de las
+  ``condiciones de frescura'' que restringen el uso de la reglas
+  $\forall$-intro.\ y $\exists$-elim.:
+  \begin{center}
+    $\infer[\text{\small(si $x\notin\FV(\Gamma)$)}]
+    {\Gamma\vdash\forall x\,\phi}{\Gamma\vdash\phi}\qquad\qquad
+    \infer[\text{\small(si $x\notin\FV(\Gamma,\psi)$)}]
+    {\Gamma\vdash\psi}
+    {\Gamma\vdash\exists x\,\phi & \Gamma,\phi\vdash\psi}$
+  \end{center}
+  Para ello, se considera una fórmula $\phi\equiv\phi(x,y)$ que
+  depende (al menos) de dos variables~$x$ e~$y$.
+  \begin{enumerate}\parskip-.5ex
+  \item[(1)] Derivar las siguientes equivalencias:
+    \begin{enumerate}\parskip-.5ex
+    \item[(a)] $\forall x\,\forall y\,\phi(x,y)~\liff~
+      \forall y\,\forall x\,\phi(x,y)$
+    \item[(b)] $\exists x\,\exists y\,\phi(x,y)~\liff~
+      \exists y\,\exists x\,\phi(x,y)$
+    \end{enumerate}
+    verificando que las derivaciones respetan las condiciones de
+    frescura.
+  \item[(2)] Derivar las siguientes implicaciones:
+    \begin{enumerate}\parskip-.5ex
+    \item[(a)] $\exists x\,\forall y\,\phi(x,y)~\limp~
+      \forall y\,\exists x\,\phi(x,y)$\quad
+      respetando las condiciones de frescura;
+    \item[(b)] $\forall y\,\exists x\,\phi(x,y)~\limp~
+      \exists x\,\forall y\,\phi(x,y)$\quad
+      sin respetar las condiciones de frescura.
+    \end{enumerate}
+  \item[(3)] Con contraejemplos en la matemática usual
+    (convergencia simple/uniforme, continuidad simple/uniforme, etc.),
+    explicar por qué la implicación del ítem (2.b) es falsa.
+  \end{enumerate}
+\end{ejercicio}
+
+\bigbreak
+\begin{ejercicio}[Una función involutiva]
+  --- Se trabaja en un vocabulario $\mathcal{V}$ con un símbolo de
+  función~$f$ de aridad~$1$, que representa una función definida sobre
+  todo el universo del discurso.
+  Derivar el teorema que dice que «si~$f$ es involutiva, entonces $f$
+    es biyectiva», es decir:
+  \begin{center}
+    $\forall x\,f(f(x))=x~~\limp~~
+    \forall x\,\forall x'\,(f(x)=f(x')\limp x=x')~~\land~~
+    \forall y\,\exists x\,f(x)=y\,.$
+  \end{center}
+\end{ejercicio}
+
+\begin{ejercicio}[Teoría Grp]
+	Derivar los siguientes teoremas.
+	\begin{enumerate}\parskip-.5ex
+		\item $\text{Grp}\vdash \forall x,~\forall y~x*y=y\Ra x=e$
+		\item $\text{Grp}\vdash \forall x,~\forall y~y*x=y\Ra x=e$
+		\item $\text{Grp}\vdash \forall x,~\exists y~x*y=y\Ra x=e$
+		\item $\text{Grp}\vdash \forall x\forall y\forall z,~x*y=e\wedge x*z=e \Ra y=z$
+	\end{enumerate}
+\end{ejercicio}
+
+\begin{ejercicio}[Aritmética de Peano]
+	Demostrar los siguientes teoremas.
+	\begin{enumerate}\parskip-.5ex
+		\item $\text{PA}\vdash  s(s(0))+ s(s(0))=s(s(s(s(0))))$
+		\item $\text{PA}\vdash  s(s(0))\times s(s(0))=s(s(s(s(0))))$
+		\item $\text{PA}\vdash \forall y~0+y=y$
+		\item $\text{PA}\vdash \forall x\forall y~s(x)+y=s(x+y)$
+		\item $\text{PA}\vdash \forall x\forall y~x+y=y+x$
+	\end{enumerate}
+\end{ejercicio}
+
+\begin{ejercicio}
+	Demostrar que la teoría de conjuntos de Frege es inconsistente.
+\end{ejercicio}
+
+
+
+\end{document}

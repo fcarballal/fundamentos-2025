@@ -1,0 +1,106 @@
+\documentclass[a4paper,12pt]{book}
+\usepackage{etex}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fullpage}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{txfonts}
+\usepackage{latexsym}
+\usepackage{stmaryrd}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+%\usepackage[all]{xy}
+\usepackage{proof}
+\usepackage[sans]{dsfont}
+\usepackage[spanish]{babel}
+
+
+\newcommand{\Ra}{\Rightarrow}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\te}{\text}
+\newcommand{\Lra}{\Leftrightarrow}
+\newcommand{\lra}{\leftrightarrow}
+
+
+%%%
+\theoremstyle{definition}
+\newtheorem{ejercicio}{Ejercicio}
+\outer\long\def\COUIC#1{}
+\outer\long\def\Solucion#1{\par
+	{\sl\small\noindent\textbf{Solución:}\quad#1\par}}
+%%% Comentar la siguiente línea para mostrar las soluciones
+\outer\long\def\Solucion#1{}
+
+\begin{document}
+	
+	\noindent
+	\centerline{\sc
+		Facultad de Ciencias\hfill---\hfill
+		Fundamentos de la Matemática\hfill---\hfill
+		Segundo semestre de 2018}\smallbreak\hrule
+	
+	\bigbreak
+	\centerline{\Large\textbf{Práctico 1: Inducción estructural y sintaxis}}
+	\bigbreak
+	
+	Comentario: el ejercicio 8 de este práctico lleva más trabajo que los otros juntos y es considerado importante.
+	\center{\textbf{Introducción a la inducción estructural}}
+	
+	\begin{ejercicio}
+		Demostrar las siguientes propiedades de la suma. Se recomienda elegir un sumando para hacer inducción y dejar los otros como parámetros.
+		\begin{enumerate}\parskip-.5ex
+			\item $S(n)+m = S(n+m)$.
+			\item $m+n = m+n$.
+			\item $(m+n)+p = m+(n+p)$.
+		\end{enumerate}
+		
+	\end{ejercicio}
+	\begin{ejercicio}
+		Definir el producto de $\mathtt{Nat}$ por inducción en el segundo argumento y utilizando la suma ya definida. Demostrar algunas propiedades análogamente al ejercicio anterior (si se quiere probar la asociativa, probablemente se necesite la distributiva antes).
+	\end{ejercicio}
+	\begin{ejercicio}
+		\begin{enumerate}\parskip-.5ex
+			\item Evaluar paso a paso $r(1:2:3:[])$.
+			\item Demostrar por inducción que $\forall l\in\mathtt{List},~r(r(l))=l$. Sugerencia: conjeturar y demostrar por inducción el resultado de $r(f(x,l))$.
+		\end{enumerate}
+	\end{ejercicio}
+	\begin{ejercicio}
+		Definir por recursión  una función que duplique todas las entradas de una lista, una función que sume todas las entradas de una lista, conjeturar una fórmula para el resultado de la composición y demostrarla por inducción.
+	\end{ejercicio}
+	\begin{ejercicio}
+		\begin{enumerate}\parskip-.5ex
+			\item Dibujar el árbol de $(\circ\circ\square)\triangle(\square\triangle\circ\square)$.
+			\item Definir por recursión una función $c:C\to\N$ tal que $c(x)$ sea la cantidad de cuadrados que aparecen en $x$ y aplicarla paso a paso al elemento de la parte 1.
+			\item Demostrar por inducción que $\forall x\in C,~c(x)\geq 1$.
+		\end{enumerate}
+	\end{ejercicio}
+
+	\center{\textbf{Sintaxis de la lógica de primer orden}}
+	
+	\begin{ejercicio} Dada la fórmula $\forall x ~x=y\vee x\leq 0\Ra \lnot y=z\wedge \bot$ escribirla como árbol y calcularle paso a paso $FV$. Repetir para alguna otra fórmula a elección.
+	\end{ejercicio}
+	
+	\begin{ejercicio}
+		Calcular paso a paso $(\forall y,~(p(x,y)\Ra\bot)\wedge\exists x~\lnot p(x,x))\{x:=z\}$.
+	\end{ejercicio}
+	
+	\begin{ejercicio}
+		Demostrar las siguientes propiedades respecto al remplazo de variables y la $\alpha$ equivalencia. Cuando hay condiciones de frescura de variables, dar un contraejemplo de la propiedad sin la condición de frescura.
+		\begin{enumerate}\parskip-.5ex
+			\item Si $x\not\in FV(\phi)$, entonces $\phi\{x:=y\}\equiv\phi$.
+			\item Si $x\in FV(\phi)$ y $y\not\in V(\phi)$, entonces $FV(\phi\{x:=y\})=(FV(\phi)-\{x\})\cup\{y\}$.
+			\item Si $y\not\in V(\phi)$, entonces $\phi\{x:=y\}\{y:=z\}\equiv \phi\{x:=z\}$.
+			\item Si tenemos que $x\not\equiv z$, que $y\not\equiv z$ y que $w\not\equiv x$, entonces se cumple que\linebreak $\phi\{x:=y\}\{z:=w\}\equiv\phi\{z:=w\}\{x:=y\}$.
+			\item Si $\phi\equiv_\alpha\psi$, entonces $FV(\phi)=FV(\psi)$.
+			\item 	Si $\phi\equiv_\alpha\psi$ y $y\not\in V(\phi)\cup V(\psi)$, entonces $\phi\{x:=y\}\equiv_\alpha\psi\{x:=y\}$.
+			\item La $\alpha$ equivalencia es reflexiva.
+			\item La $\alpha$ equivalencia es simétrica.
+			\item La $\alpha$ equivalencia es transitiva.
+		\end{enumerate}
+		
+	\end{ejercicio}
+	
+\end{document}
