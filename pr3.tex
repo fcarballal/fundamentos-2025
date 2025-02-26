@@ -101,7 +101,14 @@
 	Probar que $\forall x,~\bigcup \mathcal{P} (x)=x\subseteq \mathcal{P} (\bigcup x)$ y dar un ejemplo que pruebe que la inclusi\'on puede ser estricta. 
 	\end{ejercicio}
 
-	
+	\begin{ejercicio}
+		Sean $X,Y$ dos conjuntos y $\phi(x,y)$ una fórmula tal que $\forall x\in X\,\exists!y\in Y~\phi(x,y)$. Probar que existe $f:X\to Y$ tal que $\forall x\in X~\phi(x,f(x))$. Concretamente, hay que probar:
+		$$\exists f,\quad f:X\to Y~\wedge~\forall x\in X~\phi(x,f(x))
+		$$
+		usando las definiciones de función, dominio, imagen, etc y los axiomas. Puede ser util que $y=f(x)\Lra (x,y)\in f$.
+		
+		Observar que quitando la propiedad de unicidad en $y$ el argumento deja de funcionar (se necesita un axioma posterior...).
+	\end{ejercicio}
 	
 
 	
@@ -142,26 +149,9 @@
 	\end{enumerate}
 \end{ejercicio}
 	
-	\begin{ejercicio}
-		Sean $f,g$ grafos funcionales. Decimos que $f$ y $g$ son compatibles si se cumple $\forall x \in dom(f)\cap dom(g),~f(x)=g(x)$.
-		\begin{enumerate}\parskip -.5ex
-			\item Dados dos grafos funcionales $f,g$, \begin{enumerate}\parskip -.5ex
-				\item probar que el grafo $f\cup g$ es funcional si y s\'olo si $f$ y $g$ son compatibles. 
-				
-				\item probar que si $f$ y $g$ son compatibles $dom(f\cup g)=dom(f)\cup dom(g)$ y $img(f\cup g)=img(f)\cup img(g)$.
-			\end{enumerate}
-			\item Dado un conjunto $C$ de grafos funcionales, probar que el grafo $F=\bigcup C$ es una funci\'on si y s\'olo si los elementos de $C$ son funciones compatibles dos a dos.
-		\end{enumerate}
-	\end{ejercicio}
 	
-	\begin{ejercicio}
-		Sean $X,Y$ dos conjuntos y $\phi(x,y)$ una fórmula tal que $\forall x\in X\,\exists!y\in Y~\phi(x,y)$. Probar que existe $f:X\to Y$ tal que $\forall x\in X~\phi(x,f(x))$. Concretamente, hay que probar:
-		$$\exists f,\quad f:X\to Y~\wedge~\forall x\in X~\phi(x,f(x))
-		$$
-		usando las definiciones de función, dominio, imagen, etc y los axiomas. Puede ser util que $y=f(x)\Lra (x,y)\in f$.
-		
-		Observar que quitando la propiedad de unicidad en $y$ el argumento deja de funcionar (se necesita un axioma posterior...).
-	\end{ejercicio}
+	
+	
 	
 
 
@@ -203,7 +193,18 @@
 	
 	\paragraph{Conjuntos equipotentes}
 	Se recuerda que dos conjuntos~$X$ e~$Y$ son \emph{equipotentes} cuando
-	existe una biyección $f:X\inonto Y$.
+	existe una biyección $f:X\inonto Y$. Un conjunto es numerable si es equipotente con $\N$.
+	
+	\begin{ejercicio}
+		Probar que los siguientes pares de conjuntos son equipotentes:
+		\begin{enumerate}\parskip-.5ex
+			\item $\Pow(A)$ y $2^A$
+			\item $A\times \sum_{i\in I}B_i$ y $\sum_{i\in I}(A\times B_i)$
+			\item $A^ {\sum_{i\in I}B_i}$ y $\prod_{i\in I}(A^ {B_i})$
+			\item $(A^B)^C$ y $A^{B\times C}$
+			\item $\sum_{i\in I}A_i$ y $\bigcup_{i\in I}A_i$, si los conjuntos $\{A_i\}_{i\in I}$ son disjuntos dos a dos.
+		\end{enumerate}
+	\end{ejercicio}
 	
 	\begin{ejercicio}[Teorema de Cantor-Bernstein-Schröder]%
 		\label{ejer:CantorBernstein}
@@ -233,6 +234,25 @@
 	construcción de una biyección entre~$A$ y~$B$ al problema (más
 	sencillo) de la construcción de dos inyecciones $f:A\into B$ y
 	$g:B\into A$ sin relación entre ellas.
+	
+	
+	\begin{ejercicio}
+		Demostrar las siguientes propiedades, usando el
+		teorema de Cantor-Bernstein-Schröder cuando se necesite.
+		\begin{enumerate}\parskip-.5ex
+			\item Si dos conjuntos $A$ y $B$ son numerables, entonces $A \times B$ también lo es.
+			\item Los conjuntos $\mathbb Z$ y $\mathbb Q$ son numerables.
+			\item Si $(A_i)_{i\in I}$ es una familia de conjuntos numerables indexada por un conjunto numerable $I$, entonces $\sum_{i\in I} A_i$ y $\bigcup_{i\in I} A_i$ son también numerables.
+			\item  Si $A$ es un conjunto numerable, entonces el conjunto $\Pow^{\te{fin}}(A)$ formado por todos
+			los subconjuntos finitos de $A$ es también numerable.
+			\item  Si $A$ es un anillo conmutativo numerable (por ejemplo: Z), entonces el anillo $A[X]$ de los
+			polinomios con coeficientes en $A$ es también numerable.
+			\item Deducir de lo anterior que
+			$\mathbb{A} = \{x \in \mathbb R : (\exists p \in \mathbb Z[X])\, p(x) = 0\}$, el conjunto de los números algebráicos,
+			es numerable.
+		\end{enumerate}
+	\end{ejercicio}
+	
 	
 	\begin{ejercicio}[«Lo veo pero no lo creo»]
 		Usando el teorema anterior, demostrar que:
@@ -274,3 +294,16 @@
 	\end{ejercicio}
 	
 \end{document}
+
+
+\begin{ejercicio}
+	Sean $f,g$ grafos funcionales. Decimos que $f$ y $g$ son compatibles si se cumple $\forall x \in dom(f)\cap dom(g),~f(x)=g(x)$.
+	\begin{enumerate}\parskip -.5ex
+		\item Dados dos grafos funcionales $f,g$, \begin{enumerate}\parskip -.5ex
+			\item probar que el grafo $f\cup g$ es funcional si y s\'olo si $f$ y $g$ son compatibles. 
+			
+			\item probar que si $f$ y $g$ son compatibles $dom(f\cup g)=dom(f)\cup dom(g)$ y $img(f\cup g)=img(f)\cup img(g)$.
+		\end{enumerate}
+		\item Dado un conjunto $C$ de grafos funcionales, probar que el grafo $F=\bigcup C$ es una funci\'on si y s\'olo si los elementos de $C$ son funciones compatibles dos a dos.
+	\end{enumerate}
+\end{ejercicio}
