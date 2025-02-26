@@ -1,0 +1,263 @@
+\documentclass[a4paper,12pt]{book}
+\usepackage{etex}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fullpage}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{txfonts}
+\usepackage{latexsym}
+\usepackage{stmaryrd}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+%\usepackage[all]{xy}
+\usepackage{proof}
+\usepackage[sans]{dsfont}
+\usepackage[spanish]{babel}
+
+
+\newcommand{\Ra}{\Rightarrow}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\te}{\text}
+\newcommand{\Lra}{\Leftrightarrow}
+\newcommand{\lra}{\leftrightarrow}
+
+\def\limp{\Rightarrow}
+\def\liff{\Leftrightarrow}
+\def\ForIn#1#2{(\forall#1\,{\in}\,#2)}
+\def\ExIn#1#2{(\exists#1\,{\in}\,#2)}
+\def\Pow{\mathfrak{P}}
+\def\id{\mathrm{id}}
+\def\dom{\mathrm{dom}}
+\def\img{\mathrm{img}}
+\def\pto{\rightharpoonup}
+\def\into{\hookrightarrow}
+\def\onto{\twoheadrightarrow}
+\def\inonto{\mathbin{\tilde{\to}}}
+\def\Pow{\mathfrak{P}}
+\def\id{\mathrm{id}}
+\def\dom{\mathrm{dom}}
+\def\img{\mathrm{img}}
+\def\pto{\rightharpoonup}
+\def\into{\hookrightarrow}
+\def\onto{\twoheadrightarrow}
+\def\inonto{\mathbin{\tilde{\to}}}
+\def\Z{\mathbb{Z}}
+\def\Q{\mathbb{Q}}
+
+
+%%%
+\theoremstyle{definition}
+\newtheorem{ejercicio}{Ejercicio}
+\outer\long\def\COUIC#1{}
+\outer\long\def\Solucion#1{\par
+	{\sl\small\noindent\textbf{Solución:}\quad#1\par}}
+%%% Comentar la siguiente línea para mostrar las soluciones
+\outer\long\def\Solucion#1{}
+
+\begin{document}
+	
+	\noindent
+	\centerline{\sc
+		Facultad de Ciencias\hfill---\hfill
+		Fundamentos de la Matemática\hfill---\hfill
+		Segundo semestre de 2025}\smallbreak\hrule
+	
+	\bigbreak
+	\centerline{\Large\textbf{Práctico 3: Teoría de conjuntos de Zermelo}}
+	\bigbreak
+	
+	Comentario: se pide hacer pruebas en la teoría de conjuntos de Zermelo (sin esquema de remplazo). No hace falta escribir derivaciones (sería demasiado engorroso), pero es bueno entender que se podría hacerlo.
+	
+	\begin{ejercicio}
+		Sea $A$ un conjunto.
+		\begin{enumerate}\parskip -.5ex
+			\item Probar que $\bigcup\{A\} = A$.
+			\item Dada la clase $b=\{\{a\}/a \in A\}$,  escribirla de modo $\{x~:~\phi(x)\}$ y probar que es un conjunto.
+			\item Probar que $\bigcup b=A$.
+		\end{enumerate}
+	\end{ejercicio}
+	
+	\begin{ejercicio}
+		\begin{enumerate}\parskip -.5ex
+		\item Probar que la clase de todos los conjuntos no es un conjunto.
+		\item Probar que la clase de los conjuntos unitarios (con un solo elemento) no es un conjunto.
+		\item Deducir que la clase de todos los conjuntos finitos no es un conjunto (si bien aún no está definido, todo conjunto unitario es finito).
+		\end{enumerate}
+	\end{ejercicio}
+	
+	\begin{ejercicio}
+		Probar que $\forall x,~\bigcup \mathcal{P} (x)=x\subseteq \mathcal{P} (\bigcup x)$ y dar un ejemplo que pruebe que la inclusi\'on puede ser estricta. 
+	\end{ejercicio}
+	
+		\paragraph*{Imágenes y preimágenes}
+	Dada una función $f:X\to Y$ y dos subconjuntos
+	$A\subseteq X$, $B\subseteq Y$, se recuerda que:
+	\begin{itemize}\parskip-.5ex
+		\item La \emph{imagen} de $A\subseteq X$ por $f$ está definida por\quad
+		$f(A):=\{y\in Y:\ExIn{x}{A}f(x)=y\}$\hfill$({\subseteq}~Y)$
+		\item La \emph{preimagen} de $B\subseteq Y$ por $f$ está definida por\quad
+		$f^{-1}(B):=\{x\in X:f(x)\in B\}$\hfill $({\subseteq}~X)$
+	\end{itemize}
+	
+	\begin{ejercicio}
+	Sea una función $f:X\to Y$, con subconjuntos
+	$A,A_1,A_2\subseteq X$ y $B,B_1,B_2\subseteq Y$.
+	\begin{enumerate}\parskip-.5ex
+		\item[(1)] Para cada una de las siguientes igualdades, decir si es
+		verdadera (demostrándola) o falsa (dando un contra-ejemplo, e
+		indicando si una de la dos inclusiones se cumple):
+		$$\begin{array}{c}
+			a)~~f(\varnothing)=\varnothing\qquad\qquad
+			b)~~f(X)=Y\qquad\qquad c)~~f(A^c)=(f(A))^c\\[3pt]
+			d)~~f(A_1\cup A_2)=f(A_1)\cup f(A_2)\qquad\qquad
+			e)~~f(A_1\cap A_2)=f(A_1)\cap f(A_2)\\
+		\end{array}$$
+		\item[(2)] Mismo ejercicio con las siguientes igualdades:
+		$$\begin{array}{c}
+			a)~~f^{-1}(\varnothing)=\varnothing\qquad\qquad
+			b)~~f^{-1}(Y)=X\qquad\qquad c)~~f^{-1}(B^c)=(f^{-1}(B))^c\\[3pt]
+			d)~~f^{-1}(B_1\cup B_2)=f^{-1}(B_1)\cup f^{-1}(B_2)\qquad\qquad
+			e)~~f^{-1}(B_1\cap B_2)=f^{-1}(B_1)\cap f^{-1}(B_2)\\
+		\end{array}$$
+		\item[(3)] ¿Qué cambia en 1.\ y 2.\ si se remplaza las uniones e
+		intersecciones binarias ($A_1\cup A_2$, $A_1\cap A_2$, etc.) por
+		uniones e intersecciones infinitarias ($\bigcup_{i\in I}A_i$,
+		$\bigcap_{i\in I}A_i$, etc.)?
+	\end{enumerate}
+\end{ejercicio}
+	
+	\begin{ejercicio}
+		Sean $f,g$ grafos funcionales. Decimos que $f$ y $g$ son compatibles si se cumple $\forall x \in dom(f)\cap dom(g),~f(x)=g(x)$.
+		\begin{enumerate}\parskip -.5ex
+			\item Dados dos grafos funcionales $f,g$, \begin{enumerate}\parskip -.5ex
+				\item probar que el grafo $f\cup g$ es funcional si y s\'olo si $f$ y $g$ son compatibles. 
+				
+				\item probar que si $f$ y $g$ son compatibles $dom(f\cup g)=dom(f)\cup dom(g)$ y $img(f\cup g)=img(f)\cup img(g)$.
+			\end{enumerate}
+			\item Dado un conjunto $C$ de grafos funcionales, probar que el grafo $F=\bigcup C$ es una funci\'on si y s\'olo si los elementos de $C$ son funciones compatibles dos a dos.
+		\end{enumerate}
+	\end{ejercicio}
+	
+	\begin{ejercicio}
+		Sean $X,Y$ dos conjuntos y $\phi(x,y)$ una fórmula tal que $\forall x\in X\,\exists!y\in Y~\phi(x,y)$. Probar que existe $f:X\to Y$ tal que $\forall x\in X~\phi(x,f(x))$. Concretamente, hay que probar:
+		$$\exists f,\quad f:X\to Y~\wedge~\forall x\in X~\phi(x,f(x))
+		$$
+		usando las definiciones de función, dominio, imagen, etc y los axiomas. Puede ser util que $y=f(x)\Lra (x,y)\in f$.
+		
+		Observar que quitando la propiedad de unicidad en $y$ el argumento deja de funcionar (se necesita un axioma posterior...).
+	\end{ejercicio}
+	
+
+
+	
+	\paragraph*{Inyecciones y sobreyecciones}
+	Intuitivamente, la existencia de una inyección $f:A\into B$ significa
+	que «$A$ es más pequeño que~$B$», y la existencia de una sobreyección
+	$f:A\onto B$ que «$A$ es más grande que~$B$».
+	Pero las cosas no son tan sencillas...
+	
+	\begin{ejercicio}[Un problema de elección]
+		Sean $A,B$ dos conjuntos cualesquiera.
+		\begin{enumerate}
+			\item[(1)] Supongamos que $A\neq\varnothing$ y que existe una
+			inyección $f:A\into B$.
+			Mostrar que existe una sobreyección $g:B\onto A$, y que se puede
+			construir~$g$ tal que $g\circ f=\id_A$.
+			\item[(2)] ¿Qué pasa cuando $A=\varnothing$?
+			\item[(3)] Supongamos que existe una sobreyección $f:A\onto B$.
+			¿Existe una inyección $g:B\into A$?
+		\end{enumerate}
+
+	\end{ejercicio}
+	
+	\begin{ejercicio}[Cantor]\label{ejer:Cantor}
+		--- Sea~$A$ un conjunto.
+		\begin{enumerate}
+			\item[(1)] Demostrar que no existe ninguna sobreyección
+			$f:A\to\Pow(A)$.\\
+			(\textit{Sugerencia}: considerar el conjunto
+			$\{x\in A:x\notin f(x)\}$.)
+			\item[(2)] Deducir de (1) que no existe ninguna inyección
+			$g:\Pow(A)\to A$.
+			\item[(3)] Deducir de lo anterior que para todo conjunto~$a$,
+			tenemos que $\Pow(\bigcup a)\notin a$.
+		\end{enumerate}
+	\end{ejercicio}
+	
+	
+	\paragraph{Conjuntos equipotentes}
+	Se recuerda que dos conjuntos~$X$ e~$Y$ son \emph{equipotentes} cuando
+	existe una biyección $f:X\inonto Y$.
+	
+	\begin{ejercicio}[Teorema de Cantor-Bernstein-Schröder]%
+		\label{ejer:CantorBernstein}
+		--- Sea $X$ un conjunto dado con una inyección $h:X\into X$ (que
+		define así una biyección entre~$X$ y $h(X)$), e~$Y$ un conjunto tal
+		que $h(X)\subseteq Y\subseteq X$.
+		Se trata de demostrar que~$Y$ es equipotente a~$X$.
+		\begin{enumerate}\parskip-.5ex
+			\item[(1)] Demostrar que existe un subconjunto \emph{minimal}
+			$Z\subseteq X$ tal que~~$(X-Y)\subseteq Z$~~y~~$h(Z)\subseteq Z$.
+			\item[(2)] Demostrar que $h(Z)=Z\cap Y$.
+			\item[(3)] Usando la inyección~~$h:X\into X$~~y el
+			subconjunto~~$Z\subseteq X$~~definido en (1), construir una
+			biyección $h':X\inonto Y$.\hfill
+			(\textit{Sugerencia:} definir $h'(x)$ por casos según que
+			$x\in Z$ o no.)
+			\item[(4)] Deducir de lo anterior el teorema de
+			Cantor-Bernstein-Schröder:\\
+			Si $A$ y $B$ son dos conjuntos tales que existen inyecciones
+			$f:A\into B$ y $g:B\into A$, entonces~$A$ y~$B$ son equipotentes.
+		\end{enumerate}
+	\end{ejercicio}
+	
+	El teorema de Cantor-Bernstein-Schröder es una herramienta
+	fundamental para demostrar que dos conjuntos~$A$ y~$B$ son
+	equipotentes, en la medida en que reduce el problema (difícil) de la
+	construcción de una biyección entre~$A$ y~$B$ al problema (más
+	sencillo) de la construcción de dos inyecciones $f:A\into B$ y
+	$g:B\into A$ sin relación entre ellas.
+	
+	\begin{ejercicio}[«Lo veo pero no lo creo»]
+		Usando el teorema anterior, demostrar que:
+		\begin{enumerate}
+			\item[(1)] Los conjuntos $\R^2$ (el «plano») y $\R$ (la «recta»)
+			son equipotentes.\\
+			(Sugerencia: remplazar $\R$ por el intervalo abierto $(0,1)$.)
+			\item[(2)] Los conjuntos $\Pow(\N)$ y $\R$ son equipotentes.
+		\end{enumerate}
+		(\emph{Observación histórica: la existencia de una biyección entre
+			el plano y la recta fue descubierta en 1877 por Cantor, que
+			escribió en una carta a Dedekind: «lo veo pero no lo creo».})
+	\end{ejercicio}
+	
+	\paragraph*{Conjuntos Dedekind-infinitos}
+	Un conjunto $X$ es \emph{Dedekind-infinito} (o \emph{D-infinito})
+	cuando existe una función $f:X\to X$ inyectiva pero no sobreyectiva.
+	
+	\begin{ejercicio}[Conjuntos D-infinitos]~\par
+		\begin{enumerate}
+			\item[(1)] Verificar que los conjuntos $\N$, $\Z$, $\Q$ y $\R$ son
+			D-infinitos.
+			\item[(2)] Mostrar que si $X\subseteq Y$ y $X$ es D-infinito,
+			entonces $Y$ también es D-infinito.
+			\item[(3)] Sea $X$ un conjunto D-infinito dado con una inyección
+			$f:X\into X$ y un elemento $a\in X$ tal que $a\notin\img(f)$.
+			Mostrar que existe un subconjunto \emph{minimal} $N\subseteq X$
+			tal que $a\in N$ y $f(N)\subseteq N$.
+			Deducir que el conjunto $N$ satisface el principio de inducción:
+			\begin{quote}
+				Si $P\subseteq N$ es tal que $a\in P$ y
+				$f(P)\subseteq P$, entonces $P=N$.
+			\end{quote}
+			(Intuitivamente, $N$ es una copia de $\N$ adentro de $X$, donde
+			$a$ y $f$ tienen el papel de $0$ y de la función sucesor.
+			En particular, el conjunto $N$ equipado con $a$ y $f$ es isomorfo
+			a $\N$.)
+		\end{enumerate}
+	\end{ejercicio}
+	
+\end{document}

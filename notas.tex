@@ -154,7 +154,7 @@ Vamos ahora a demostrar una propiedad de la suma usando el principio de inducci�
 	Demostrar las siguientes propiedades de la suma. Se recomienda elegir un sumando para hacer inducción y dejar los otros como parámetros.
 	\begin{enumerate}
 		\item $S(n)+m = S(n+m)$.
-		\item $m+n = m+n$.
+		\item $m+n = n+m$.
 		\item $(m+n)+p = m+(n+p)$.
 	\end{enumerate}
 	
@@ -179,23 +179,23 @@ La lista $[]$ es la lista vacía. Un ejemplo de lista no vacía es $1:2:3:[]$. E
 	
 	Sea $\phi(x)$ una propiedad. Si:
 	\begin{enumerate}
-		\item $\phi([])$.
-		\item Para toda $l\in\mathtt{List}$ y todo $n\in\N$, si $\phi(l)$, entonces $\phi(n:l)$.
+		\item $\phi([])$
+		\item Para toda $l\in\mathtt{List}$ y todo $n\in\N$, si $\phi(l)$, entonces $\phi(n:l)$
 	\end{enumerate}
-	Entonces $\forall l\in\mathtt{List},~\phi(l)$.
+	entonces $\forall l\in\mathtt{List},~\phi(l)$.
 \end{prop*}
 \begin{prop*}[Recursión de $\mathtt{List}$]
 	Sea $X$ un conjunto. Queremos definir una función $f:\mathtt{List}\to X$. Si:
 	\begin{enumerate}
-		\item Definimos $f([])$.
-		\item Para cada $l\in\mathtt{List}$ y $n\in\N$, asumiendo que $f(l)$ está definido, definimos $f(n:l)$.
+		\item Definimos $f([])$
+		\item Para cada $l\in\mathtt{List}$ y $n\in\N$, asumiendo que $f(l)$ está definido, definimos $f(n:l)$
 	\end{enumerate}
-	Entonces $f$ queda definida en todo $\mathtt{List}$.
+	entonces $f$ queda definida en todo $\mathtt{List}$.
 \end{prop*}
 En este caso con el principio de recursión se puede definir de forma trivial funciones que no parecen tan obvias. Dados $n\in\N$ y $l\in\mathtt{List}$, la lista que resulta al agregarlo en primer lugar es $n:l$. ¿Y si queremos agregarlo en el último lugar? Para esto definimos una función $f:\N\times\mathtt{List}\to\mathtt{List}$, de modo que $f(n,l)$ sea la lista que resulta al agregar $n$ en el último lugar de $l$. Definimos $f$ por inducción en el segundo argumento.
 \begin{enumerate}
-	\item $f(n,[]) = n:[]$.
-	\item $f(n,x:l) = x:(f(n,l))$.
+	\item $f(n,[]) = n:[]$
+	\item $f(n,x:l) = x:(f(n,l))$
 \end{enumerate}
 Es muy interesante (a mi parecer) que con eso el problema esté resuelto. Parece que no hubieramos hecho nada, pero por el principio de recursión ya está. El razonamiento es el siguiente. En el caso de que la lista es vacía, claramente hay que retornar la lista que solamente tiene el elemento que queremos agregar al final. Cuando la lista es $x:l$, por el principio de recursión ya sabemos insertar $n$ al final de la lista $l$: el  resultado es $f(n,l)$. Por lo tanto, el resultado de insertar $n$ al final de la lista $x:l$ no es más que $x:(f(n,l))$.
 
@@ -233,19 +233,19 @@ El principio de inducción y el de recursión son los siguientes.
 	
 	Sea $\phi(x)$ una propiedad. Si:
 	\begin{enumerate}
-		\item $\phi(\square)$.
-		\item Para todo $x\in\mathtt{C}$, si $\phi(x)$ entonces $\phi(\circ x)$.
-		\item Para todos $x,y\in\mathtt{C}$, si $\phi(x)$ y $\phi(y)$, entonces $\phi(x\triangle y)$.	\end{enumerate}
-	Entonces $\forall x\in\mathtt{C},~\phi(x)$.
+		\item $\phi(\square)$
+		\item Para todo $x\in\mathtt{C}$, si $\phi(x)$ entonces $\phi(\circ x)$
+		\item Para todos $x,y\in\mathtt{C}$, si $\phi(x)$ y $\phi(y)$, entonces $\phi(x\triangle y)$	\end{enumerate}
+	entonces $\forall x\in\mathtt{C},~\phi(x)$.
 \end{prop*}
 \begin{prop*}[Recursión de $\mathtt{C}$]
 	Sea $X$ un conjunto. Queremos definir una función \linebreak$f:\mathtt{C}\to X$. Si:
 	\begin{enumerate}
-		\item Definimos $f(\square)$.
-		\item Para cada $x\in\mathtt{C}$, asumiendo que $f(x)$ está definido, definimos $f(\circ x)$.
-		\item Para cada par $x,y\in\mathtt{C}$, asumiendo que $f(x)$ y $f(y)$ están definidos, definimos $f(x\triangle y)$.
+		\item Definimos $f(\square)$
+		\item Para cada $x\in\mathtt{C}$, asumiendo que $f(x)$ está definido, definimos $f(\circ x)$
+		\item Para cada par $x,y\in\mathtt{C}$, asumiendo que $f(x)$ y $f(y)$ están definidos, definimos $f(x\triangle y)$
 	\end{enumerate}
-	Entonces $f$ queda definida en todo $\mathtt{C}$.
+	entonces $f$ queda definida en todo $\mathtt{C}$.
 \end{prop*}
 
 \begin{ejercicio}
@@ -285,7 +285,7 @@ Todo lo siguiente está parametrizado por un vocabulario $\mathtt{V}$. Las const
 
 \subsection{Términos y Fórmulas}
 
-Los que vamos a definir ahora son los elementos sintácticos centrales de la lógica de primer orden. Los términos representan objetos matemáticos y las fórmulas representan afirmaciones sobre esos objetos matemáticos. En particular, los teoremas serán casos particulares de fórmulas.
+Los que vamos a definir ahora son los elementos sintácticos centrales de la lógica de primer orden. Los términos representan algunos objetos matemáticos concretos y las fórmulas representan afirmaciones matemáticas. En particular, los teoremas serán casos particulares de fórmulas.
 
 Las definiciones están parametrizadas por un vocabulario $\mathtt{V}$ genérico. De todos modos, para algunos ejemplos asumiremos que contiene símbolos de función $0$ y $+$ de aridad 0 y 2 respectivamente y un símbolo de predicado $\leq$ de aridad 2.
 
@@ -381,7 +381,7 @@ Puede convenir reflexionar un poco sobre el rol de las variables libres y ligada
 
 Volviendo al ejemplo anterior, queríamos sustituir $x$ por $y$ en $\exists y~ x<y$. El $y$ que queremos sustituir viene de afuera, puede que haya sido definido hace tiempo en una demostración y ahora queremos aplicarle la propiedad dada por la fórmula $\forall x\exists y~ x<y$. Por lo tanto, la solución es renombrar la $y$ ligada de la fórmula, como se hizo arriba.
 
-Para llegar a la operación de sustitución comenzaremos por el remplazo de una variable, luego definiremos una relación de equivalencia, que dice que dos fórmulas son la misma salvo renombrar variables ligadas, y finalmente definiremos la sustitución en el cociente con esa relación de equivalencia.
+Para llegar a la operación de sustitución que evite el problema de captura de variable, comenzaremos por el remplazo de una variable, luego definiremos una relación de equivalencia, que dice que dos fórmulas son la misma salvo renombrar variables ligadas, y finalmente definiremos la sustitución en el cociente con esa relación de equivalencia.
 
 Como el símbolo $=$ se utiliza en las fórmulas, para la igualdad entre elementos de $\mathtt{Term}$ o $\mathtt{Form}$ utilizaremos el símbolo $\equiv$ para evitar ambigüedades.
 
@@ -516,7 +516,7 @@ Probar algo por inducción en el tamaño de $\phi$ consiste en para cada $\phi$,
 		\item $\phi_1\square\phi_2\equiv_\alpha\psi \quad\te{sii}\quad \psi\equiv\psi_1\square\psi_2$ y $\phi_1\equiv_\alpha\psi_1$ y $\phi_2\equiv_\alpha\psi_2$ \quad con $\square\in\{\wedge,\vee,\Ra,\Lra\}$.
 		\item $Qx~\phi_0\equiv_\alpha\psi \quad\te{sii}\quad
 			\psi\equiv Qx\psi_0\te{ y }\phi_0\equiv_\alpha\psi_0$ \textbf{o}
-		$$\psi\equiv Qy~\psi_0\te{ con }x\not\equiv y\te{ y }\phi_0\{x:=z\}\equiv_\alpha\psi_0\{x:=z\}\te{ con algún }z\not\in V(\phi)\cup V(\psi)
+		$$\psi\equiv Qy~\psi_0\te{ con }x\not\equiv y\te{ y }\phi_0\{x:=z\}\equiv_\alpha\psi_0\{y:=z\}\te{ con algún }z\not\in V(\phi)\cup V(\psi)
 		 $$
 	\end{itemize}
 \end{definicion}
@@ -533,7 +533,7 @@ Esa técnica de hacer inducción en la primera fórmula (con la segunda como par
 	\item $\phi_1\square\phi_2\equiv_\alpha\psi_1\square\psi_2 \quad\te{sii}\quad \phi_1\equiv_\alpha\psi_1$ y $\phi_2\equiv_\alpha\psi_2$ \quad con $\square\in\{\wedge,\vee,\Ra,\Lra\}$.
 	\item $Qx~\phi_0\equiv_\alpha  Qx\psi_0 \quad\te{sii}\quad
     \phi_0\equiv_\alpha\psi_0$ 
-	\item $Qx~\phi_0\equiv_\alpha Qy~\psi_0\te{ con }x\not\equiv y \qquad\te{sii}\qquad\phi_0\{x:=z\}\equiv_\alpha\psi_0\{x:=z\}$ con alguna variable fresca  $z\not\in V(Qx~\phi_0)\cup V(Qy~\psi_0)
+	\item $Qx~\phi_0\equiv_\alpha Qy~\psi_0\te{ con }x\not\equiv y \qquad\te{sii}\qquad\phi_0\{x:=z\}\equiv_\alpha\psi_0\{y:=z\}$ con alguna variable fresca  $z\not\in V(Qx~\phi_0)\cup V(Qy~\psi_0)
 	$
 \end{itemize}
 Para las fórmulas atómicas (casos base de $\mathtt{Form}$) deben ser exactamente la misma, en los casos de conectivas se propaga recursivamente y en el caso de igual cuantificador también se propaga recursivamente. En caso de un mismo cuantificador con distintas variables, son $\alpha$ equivalentes en caso de que las subfórmulas lo sean remplazando las variables por alguna variable $z$ fresca para ambas. Alcanza con que exista una variable $z\not\in V(\phi)\cup V(\psi)$ con la que se cumpla (aunque si sirve una en realidad sirven todas, como se probará). Notar que la definición implica que tengan la misma estructura. Si en un lugar una fórmula tiene un $\wedge$ y la otra un $\vee$, por ejemplo, no son $\alpha$ equivalentes.
@@ -610,11 +610,11 @@ Finalmente, definiremos la operación de sustitución que utilizaremos. A difere
 		\item $(\phi\square\psi)[x:=t]~:\equiv~\phi[x:=t]\square\psi[x:=t]$\quad con $\square\in\{\wedge,\vee,\Ra,\Lra\}$.
 		\item $(Qx~\phi)[x:=t]~:\equiv~Qx~\phi$ \quad con $Q\in\{\forall,\exists\}$.
 		\item $(Qy~\phi)[x:=t]~:\equiv~Qy~\phi[x:=t]$\quad si $y\not\equiv x$ y ($x\not\in FV(\phi)$ o $y\not\in FV(t)$).
-		\item $(Qy~\phi)[x:=t]~:\equiv~Qz~\phi\{y:=z\}[x:=t]$\quad con $z\not\in V(\phi)\cup FV(t)$ \quad en el caso de que $y\not\equiv x$ y $x\in FV(\phi)$ y $z\in FV(t)$.
+		\item $(Qy~\phi)[x:=t]~:\equiv~Qz~\phi\{y:=z\}[x:=t]$\quad con $z\not\in V(\phi)\cup FV(t)$ \quad en el caso de que $y\not\equiv x$ y $x\in FV(\phi)$ y $y\in FV(t)$.
 	\end{itemize}
 \end{definicion}
 
-En el último caso, el resultado de la sustitución depende de la elección de una variable $z$. Como las variables son numerables podemos ordenarlas y definir que se usa siempre la menor variable fresca (esto es una sutileza para aclarar que no estamos usando el axioma de elección). De todos modos, por la relación $\equiv_\alpha$ podremos evitar la complicación de la enumeración de las variables y en la práctica será mucho más intuitivo. Esto es por lo siguiente (que lleva bastante trabajo demostrar).
+En el último caso, el resultado de la sustitución depende de la elección de la variable~$z$. Como las variables son numerables podemos ordenarlas y definir que se usa siempre la menor variable fresca (esto es una sutileza para aclarar que no estamos usando el axioma de elección). De todos modos, por la relación $\equiv_\alpha$ podremos evitar la complicación de la enumeración de las variables y en la práctica será mucho más intuitivo. Esto es por lo siguiente (que lleva bastante trabajo demostrar).
 \begin{prop}
 	Si $\phi\equiv_\alpha\psi$, entonces $\phi[x:=t]\equiv_\alpha\psi[x:=t]$.
 \end{prop}
@@ -644,7 +644,7 @@ Por último, hay otra notación para la sustitución, más intuitiva pero menos 
 
 \section{Deducción natural}
 
-Finalmente tenemos lo necesario para dar una noción formal de demostración. Esto es, definir objetos matemáticos que modelen el razonamiento matemático. Para esto comenzamos con una definición.
+Finalmente tenemos lo necesario para dar una noción formal de demostración. Esto es, definir objetos matemáticos que modelen el razonamiento matemático. Para esto comenzamos definiendo contextos y secuentes.
 
 \begin{definicion}[Contextos y secuentes]
 	Un \textbf{contexto} es un conjunto finito de fórmulas. En general los denotaremos con $\Delta,\Gamma$, etc. De forma concreta, $\Delta\in\mathcal{P}^{\te{fin}}(\mathtt{Form})$. Usamos la siguiente notación para agregar elementos a contextos:
@@ -738,7 +738,7 @@ La mayoría de las reglas de deducción son o bien de introducción o bien de el
 
 La regla de introducción de la implicación es la que se usa para demostrar una implicación. Nos dice que del secuente $\Gamma,\phi\vdash\psi$ podemos deducir el secuente $\Gamma\vdash\phi\Ra\psi$. Hay que entender que $\Gamma$ representa hipótesis globales, lo cual es necesario porque las reglas están pensadas para usarse como parte de razonamientos complejos. Lo que nos dice esta regla es que si de $\Gamma$ y $\phi$ se deduce $\psi$, entonces de $\Gamma$ se deduce $\phi\Ra\psi$. Si pensamos la regla de abajo hacia arriba, para probar $\phi\Ra\psi$, agregamos $\phi$ a nuestro conjunto de hipótesis y pasamos a demostrar $\psi$. Esencialmente es cuando uno debe probar una implicación y lo que hace es asumir la hipótesis y ponerse a demostrar la tesis.
 
-Como hicimos en el párrafo anterior, a veces es útil interpretar el sentido de las reglas de abajo hacia arriba. Si bien el sentido de deducción es de arriba hacia abajo (el secuente de abajo se deduce del/los de arriba), muchas veces uno usa el otro orden: arranca desde abajo y piensa en qué debería probar para llegar a eso. Por ejemplo, si queremos llegar a $\Gamma\vdash\phi\Ra\psi$, una buen método es intentar probar $\Gamma,\phi\vdash\psi$ (en este caso siempre es el mejor método, pero en otros casos hay más de una regla que podría convenir usar).
+Como hicimos en el párrafo anterior, a veces es útil interpretar el sentido de las reglas de abajo hacia arriba. Si bien el sentido de deducción es de arriba hacia abajo (el secuente de abajo se deduce del/los de arriba), muchas veces uno usa el otro orden: arranca desde abajo y piensa en qué debería probar para llegar a eso. Por ejemplo, si queremos llegar a $\Gamma\vdash\phi\Ra\psi$, una buen método es intentar probar $\Gamma,\phi\vdash\psi$ (en este caso, casi siempre es el mejor método, pero en otros casos hay más de una regla que podría convenir usar).
 
 Pensemos ahora en la regla de eliminación de la implicación. Esta es la regla que uno usa cuando ya tiene demostrada una implicación y quiere utilizarla para probar otra cosa. Se trata básicamente del <<modus ponens>>. A partir del secuente $\Gamma\vdash\phi\Ra\psi$ y del secuente $\Gamma\vdash\phi$, deducimos el secuente $\Gamma\vdash\psi$. Se puede considerar bastante intuitivo. Si probamos que $\phi$ implica $\psi$ y además probamos $\phi$, entonces tenemos probado $\psi$ (todo esto con un contexto $\Gamma$).
 
@@ -783,7 +783,7 @@ Finalmente definiremos las derivaciones: objetos formales que modelan el razonam
 			\infer2{\Gamma\vdash\psi}
 		\end{prooftree} \quad es una derivación.
 	\end{enumerate}
-	Decimos que un secuente $\Gamma\vdash\phi$ es derivable si existe una derivación $d$ con ese secuente como raiz. En ese caso escribiremos $d:\Gamma\vdash\phi$. En general afirmar un secuente significará que es derivable. Cuando un secuente con contexto vacío $\vdash\phi$ es derivable, diremos que $\phi$ es una tautología.
+	Decimos que un secuente $\Gamma\vdash\phi$ es derivable si existe una derivación $d$ con ese secuente como raiz. En ese caso escribiremos $d:\Gamma\vdash\phi$. En general diremos que un secuente se cumple si es derivable. Cuando un secuente con contexto vacío $\vdash\phi$ es derivable, diremos que $\phi$ es una tautología.
 \end{definicion}
 
 Veamos algunos ejemplos de derivaciones. Es necesario practicar bastante. En cada uno de los siguientes ejemplos, identificar qué regla de deducción se está usando en cada paso. Primero derivemos $\vdash\forall x~\phi(x)\Ra\exists x~\phi(x)$. En este secuente $\phi(x)$ es una subfórmula genérica. La derivación siguiente funciona para cualquier fórmula $\phi(x)$ particular.
@@ -880,7 +880,7 @@ Ahora formalizaremos otra noción fundamental en la matemática: la de <<teoría
 \end{definicion}
 Cabe recordar que en lugar de formalizar la matemática desde cero, se parte de una matemática intuitiva, llamada metateoría. En esta sección usamos bastante una noción básica de conjunto, para habalar de los axiomas y teoremas de las teorías.
 
-Notar que al definir objetos matemáticos que representan teoremas, podemos hablar de conjuntos de teoremas. Usualmente en matemática probamos teoremas que hablan de objetos matemáticos, siendo los teoremas un objeto del lenguaje (se podría decir), que claramente está en otro <<universo>> que los objetos matemáticos. Es decir, los teoremas son lo que nosotros escribimos, mientras que los objetos matemáticos sobre los que los teoremas hablan son objetos abstractos. Sin embargo, aquí estamos definiendo teoremas como objetos matemáticos, lo cual permite que interactúen con otros objetos matemáticos <<como iguales>>. Si queremos podemos, por ejemplo, definir conjuntos de fórmulas por comprensión y trabajar con ellos. En teoría de modelos (tema fuera del alcance del curso) se suele hacer interactuar fórmulas con conceptos matemáticos más abstractos (sea usar el axioma de elección, o conceptos de topología o medida).
+Notar que al definir objetos matemáticos que representan teoremas, podemos hablar de conjuntos de teoremas. Usualmente en matemática probamos teoremas que hablan de objetos matemáticos, siendo los teoremas un objeto del lenguaje (se podría decir), que claramente está en otro <<universo>> que los objetos matemáticos. Es decir, los teoremas son lo que nosotros escribimos, mientras que los objetos matemáticos sobre los que hablan son objetos abstractos. Sin embargo, aquí estamos definiendo teoremas como objetos matemáticos, lo cual permite que interactúen con otros objetos matemáticos <<como iguales>>. Si queremos podemos, por ejemplo, definir conjuntos de fórmulas por comprensión y trabajar con ellos. En teoría de modelos (tema fuera del alcance del curso) se suele hacer interactuar fórmulas con conceptos matemáticos más abstractos (sea usar el axioma de elección, o conceptos de topología o medida).
 
 \begin{prop}
 	El conjunto $\te{Th}(\mathcal{T})$ es cerrado por consecuencia lógica, es decir, si $\phi_1,\dots,\phi_n\in\te{Th}(\mathcal{T})$ y $\phi_1,\dots,\phi_n\vdash\psi$, entonces $\psi\in\te{Th}(\mathcal{T})$.
