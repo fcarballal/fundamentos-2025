@@ -381,7 +381,7 @@ Puede convenir reflexionar un poco sobre el rol de las variables libres y ligada
 
 Volviendo al ejemplo anterior, queríamos sustituir $x$ por $y$ en $\exists y~ x<y$. El $y$ que queremos sustituir viene de afuera, puede que haya sido definido hace tiempo en una demostración y ahora queremos aplicarle la propiedad dada por la fórmula $\forall x\exists y~ x<y$. Por lo tanto, la solución es renombrar la $y$ ligada de la fórmula, como se hizo arriba.
 
-Para llegar a la operación de sustitución que evite el problema de captura de variable, comenzaremos por el remplazo de una variable, luego definiremos una relación de equivalencia, que dice que dos fórmulas son la misma salvo renombrar variables ligadas, y finalmente definiremos la sustitución en el cociente con esa relación de equivalencia.
+Para llegar a la operación de sustitución que evite el problema de captura de variable, comenzaremos por el remplazo de una variable (operación que ignora el problema), luego definiremos una relación de equivalencia, que dice que dos fórmulas son la misma salvo renombrar variables ligadas, y finalmente definiremos la sustitución en el cociente con esa relación de equivalencia, de modo que solucione el problema.
 
 Como el símbolo $=$ se utiliza en las fórmulas, para la igualdad entre elementos de $\mathtt{Term}$ o $\mathtt{Form}$ utilizaremos el símbolo $\equiv$ para evitar ambigüedades.
 
@@ -400,7 +400,7 @@ Como el símbolo $=$ se utiliza en las fórmulas, para la igualdad entre element
 		\item $(\lnot\phi)\{x:=y\}~:\equiv~\lnot\phi\{x:=y\}$
 		\item $(\phi\square\psi)\{x:=y\}~:\equiv~\phi\{x:=y\}\square\psi\{x:=y\}$\quad con $\square\in\{\wedge,\vee,\Ra,\Lra\}$.
 		\item $(Qx~\phi)\{x:=y\}~:\equiv~Qx~\phi$ \quad con $Q\in\{\forall,\exists\}$.
-		\item $(Qz~\phi)\{x:=y\}~:\equiv~Qx~\phi\{x:=y\}$\quad si $z\not\equiv x$.
+		\item $(Qz~\phi)\{x:=y\}~:\equiv~Qz~\phi\{x:=y\}$\quad si $z\not\equiv x$.
 	\end{itemize}
 \end{definicion}
 Notar que la mayoría de las reglas simplemente propagan recursivamente la operación. Las excepciones son las variables y los cuantificadores, lo cual tiene sentido dada la operación a realizar. En la penúltima regla para las fórmulas ocurre que la variable $x$ está en el cuantificador de la cabeza de la fórmula. Eso implica que la variable $x$ no puede estar libre y por lo tanto no se sustituye nada.
@@ -418,9 +418,7 @@ Necesitaremos las siguientes propiedades. Usamos estas convenciones de notación
 	\end{enumerate}
 \end{prop}
 \begin{proof}
-	Veamos la parte 1. Primero se demuestra para términos y luego para fórmulas, ambas veces por inducción. Comenzando con los términos: fijamos~$x$ y  aplicamos inducción a $\Phi(t):$ <<si $x\not\in FV(t)$, entonces $t\{x:=y\}\equiv t$>>. En el caso de que $x\in FV(t)$ el predicado es verdadero (es una convención de la lógica que si el antecedente es falso, la implicación es verdadera).
-	
-	En lugar de fijar $x$ y hacer inducción, se podría cuantificar la variable en el predicado inductivo, es decir, usar $\Phi(t):$ <<para toda $x\in\mathtt{Var}$, si $x\not\in FV(t)$, entonces $t\{x:=y\}\equiv t$>>.\linebreak En algunas situaciones puede que con un predicado se pueda y con el otro no. Aquí no hace falta incluir la variable en el predicado y alargaría un poco cada caso, así que usaremos el enfoque anterior: primero fijamos $x\in\mathtt{Var}$ cualquiera, luego hacemos inducción y finalmente como $x$ es cualquiera, concluimos que se cumple para todo $x\in\mathtt{Var}$.
+	Veamos la parte 1. Primero se demuestra para términos y luego para fórmulas, ambas veces por inducción. Comenzando con los términos: fijamos~$x$ y  aplicamos inducción a $\Phi(t):$ <<si $x\not\in FV(t)$, entonces $t\{x:=y\}\equiv t$>>.
 	
 	\textbf{Caso variable:} $t\equiv z$. Debemos probar que si $x\not\in FV(z)$ entonces $z\{x:=y\}\equiv z$. Como $FV(z)=\{z\}$ (definición de $FV$), tenemos que $z\not\equiv x$. Por lo tanto por definición de remplazo de variable, $z\{x:=y\}\equiv z$, que es lo que queríamos probar.
 	
@@ -435,7 +433,7 @@ Necesitaremos las siguientes propiedades. Usamos estas convenciones de notación
 	
 	\textbf{Caso bot:} $\phi\equiv\bot$. Análogo al anterior.
 	
-	\textbf{Caso predicado:} $\phi\equiv p(t_1,\dots,t_k)$. Es análogo al <<Caso función>> para términos, solo que en este caso en lugar de usar hipótesis inductiva, se utiliza la propiedad ya demostrada para términos. Supongamos que $x\not\in FV(p(t_1,\dots,t_k))$. Para cada~$i$ tenemos que $x\not\in FV(t_i)$. Como $\forall t\in\mathtt{Term}~\Phi(t)$, en particular se cumple para cada~$t_i$. Concluimos que $t_i\{x:=y\}\equiv t_i$ para cada $i$. Concluimos: $$p(t_1,\dots,t_k)\{x:=y\}\equiv p(t_1\{x:=y\},\dots,t_k\{x:=y\})\equiv p(t_1,\dots,t_k)$$
+	\textbf{Caso predicado:} $\phi\equiv p(t_1,\dots,t_k)$. Es análogo al <<Caso función>> para términos, solo que en este caso en lugar de usar hipótesis inductiva, se utiliza la propiedad ya demostrada para términos. Supongamos que $x\not\in FV(p(t_1,\dots,t_k))$. Por definición de FV, para cada~$i$ tenemos que $x\not\in FV(t_i)$. Como $\forall t\in\mathtt{Term}~\Phi(t)$, en particular se cumple para cada~$t_i$. Concluimos que $t_i\{x:=y\}\equiv t_i$ para cada $i$. Finalmente: $$p(t_1,\dots,t_k)\{x:=y\}\equiv p(t_1\{x:=y\},\dots,t_k\{x:=y\})\equiv p(t_1,\dots,t_k)$$
 	
 	\textbf{Caso igualdad:} $\phi\equiv t_1=t_2$. Análogo al anterior.
 	
@@ -443,7 +441,7 @@ Necesitaremos las siguientes propiedades. Usamos estas convenciones de notación
 	$$ (\lnot\phi_0)\{x:=y\} \equiv \lnot \phi_0\{x:=y\}\equiv \lnot\phi_0
 	$$
 	
-	\textbf{Caso conectiva:} $\phi\equiv \phi_0\square\phi_1$. El mismo razonamiento sirve para $\square =\wedge,\vee,\Ra,\Lra$. Esto es porque las operaciones que usamos no diferencian entre ellos. En general obviamente se puede hacer una prueba distinta para cada conectiva, si hace falta. Tenemos dos hipótesis inductivas: $\Phi(\phi_0)$ y $\Phi(\phi_1)$. Probaremos $\Phi(\phi)$. Supongamos $x\not\in FV(\phi)$. Por definición de $FV$, tenemos que $x\not\in FV(\phi_0)$ y $x\not\in FV(\phi_1)$. Por lo tanto, usando las hipótesis inductivas, $\phi_0\{x:=y\}\equiv \phi_0$ y $\phi_1\{x:=y\}\equiv \phi_1$. Finalmente:
+	\textbf{Caso conectiva:} $\phi\equiv \phi_0\square\phi_1$. El mismo razonamiento sirve para $\wedge,\vee,\Ra,\Lra$. Esto es porque las operaciones que usamos no diferencian entre ellos. En general obviamente se puede hacer una prueba distinta para cada conectiva, si hace falta. Tenemos dos hipótesis inductivas: $\Phi(\phi_0)$ y $\Phi(\phi_1)$. Probaremos $\Phi(\phi)$. Supongamos $x\not\in FV(\phi)$. Por definición de $FV$, tenemos que $x\not\in FV(\phi_0)$ y $x\not\in FV(\phi_1)$. Por lo tanto, usando las hipótesis inductivas, $\phi_0\{x:=y\}\equiv \phi_0$ y $\phi_1\{x:=y\}\equiv \phi_1$. Finalmente:
 	$$ (\phi_0\square\phi_1)\{x:=y\}\equiv \phi_0\{x:=y\}\square\phi_1\{x:=y\}\equiv \phi_0\square\phi_1
 	$$
 	
@@ -457,6 +455,8 @@ Necesitaremos las siguientes propiedades. Usamos estas convenciones de notación
 	
 	Por inducción concluimos que $\forall \phi\in\mathtt{Form}~\Phi(\phi)$. Finalmente, como $x$ es cualquiera, podemos afirmar que $\forall x\in\mathtt{Var}\forall \phi\in\mathtt{Form}~\Phi(\phi)$. Escribiendo la definición de $\Phi$, llegamos a <<$\forall x\in\mathtt{Var}\forall \phi\in\mathtt{Form}~$ si $x\not\in FV(\phi)$, entonces $\phi\{x:=y\}\equiv\phi$>>, que es una forma de escribir lo que queríamos probar.
 \end{proof}
+En lugar de fijar $x$ y hacer inducción, se podría cuantificar la variable en el predicado inductivo, es decir, usar $\Phi(t):$ <<para toda $x\in\mathtt{Var}$, si $x\not\in FV(t)$, entonces $t\{x:=y\}\equiv t$>>.\linebreak En algunas situaciones puede que con un predicado se pueda y con el otro no. Aquí no hizo falta incluir la variable en el predicado y hubiera alargado un poco cada caso, por lo que usamos el enfoque anterior: primero fijar $x\in\mathtt{Var}$ cualquiera, luego hacemos inducción y finalmente como $x$ es cualquiera, concluir que se cumple para todo $x\in\mathtt{Var}$.
+
 Esta prueba se hizo detallando mucho cada caso (a bajo nivel, haciendo analogía con programación). Gran parte de lo que se detalló, de aquí en más se reducirá solamente a frases como <<apilcación directa de hipótesis inductiva>>,  (de alto nivel, continuando la analogía) y se explicarán en detalle solo las partes menos triviales. Por lo tanto, se recomienda a quien lee asegurarse de entender bien la prueba anterior. Salvo el caso cuantificador y (tal vez) el caso variable, los otros deberían llegar a considerarse casi directos por inducción y/o definiciones (si bien las definiciones tienen muchos casos, casi siempre hay uno solo aplicable; esencialmente es: caso inductivo X, aplicar la regla correspondiente de definiciones recursivas, aplicar una vez la(s) hipótesis inductiva(s) y juntar todo). Si realmente se entiende, se debería poder reescribir cualquiera de las pruebas posteriores con el nivel de detalle de la anterior (recomendación de ejercicios) (volviendo a la analogía, es como compilar la prueba de alto nivel a una de bajo nivel).
 
 Para la siguiente proposición, se aclara que $\phi\{x:=y\}\{y:=z\}$ es la composición de remplazos, es decir $(\phi\{x:=y\})\{y:=z\}$.
@@ -610,7 +610,7 @@ Finalmente, definiremos la operación de sustitución que utilizaremos. A difere
 		\item $(\phi\square\psi)[x:=t]~:\equiv~\phi[x:=t]\square\psi[x:=t]$\quad con $\square\in\{\wedge,\vee,\Ra,\Lra\}$.
 		\item $(Qx~\phi)[x:=t]~:\equiv~Qx~\phi$ \quad con $Q\in\{\forall,\exists\}$.
 		\item $(Qy~\phi)[x:=t]~:\equiv~Qy~\phi[x:=t]$\quad si $y\not\equiv x$ y ($x\not\in FV(\phi)$ o $y\not\in FV(t)$).
-		\item $(Qy~\phi)[x:=t]~:\equiv~Qz~\phi\{y:=z\}[x:=t]$\quad con $z\not\in V(\phi)\cup FV(t)$ \quad en el caso de que $y\not\equiv x$ y $x\in FV(\phi)$ y $y\in FV(t)$.
+		\item $(Qy~\phi)[x:=t]~:\equiv~Qz~\phi\{y:=z\}[x:=t]$\quad con $z\not\in V(\phi)\cup FV(t)$ \quad en el caso de que $y\not\equiv x$ y ($x\in FV(\phi)$ y $y\in FV(t)$).
 	\end{itemize}
 \end{definicion}
 
