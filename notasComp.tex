@@ -94,7 +94,7 @@ Todas las componentes de la computadora se construyen con circuitos electrónico
 \begin{figure}
 	\centering
 	\includegraphics[scale=0.3]{ArqVN.png}
-	\caption{Esquema de los componentes de la arquitectura de Von Neumann}
+	\caption{Esquema de los componentes de la arquitectura de Von Neumann.}
 	\label{fig-ArqVN}
 \end{figure}
 
@@ -102,13 +102,48 @@ El procesador tiene tres componentes que cumplen distintas funciones: la unidad 
 
 Respecto a la suma, la ALU al ser un circuito combinatorio, es en realidad como una tabla que tiene el resultado para cada combinación de operandos. Las sumas que se realizan directamente por la ALU pueden ser por ejemplo de números representados por uno o dos bytes (donde un byte es por definición una secuencia de 8 bits). Como la cantidad de números representables crece exponencialmente con la cantidad de bits, hacer sumas de números más grandes por la ALU (que lo que hace es tener una tabla con todos los resultados) es extremadamente ineficiente. Lo que se hace para realizar sumas con números más grandes es descomponerlas como una secuencia de instrucciones más sencillas. Esto es como lo que se hace en los algoritmos aritméticos básicos. Pensemos por ejemplo en el producto. Está la tabla de multiplicación que uno se aprende de memoria (lo cual es análogo a lo que está en los circuitos de la ALU) pero luego a partir de eso, siguiendo un algoritmo (secuencia de instrucciones) se puede calcular la multiplicación de números de cualquier cantidad de cifras sin precisar saber nada más de memoria.
 
-Algunos ejemplos de instrucciones comunes son...
+La memoria es un dispositivo electrónico capaz de almacenar muchos valores, los cuales pueden ser leídos o modificados. Tiene la estructura de un gran vector de bytes, indizado por secuencias de bits de largo fijo. Por ejemplo, si se usan dos bits para indizar, los lugares de la memoria serían el {\tt 00}, el {\tt 01}, el {\tt 10} y el {\tt 11}, cada uno de los cuales contendría un byte de información. En las computadoras actuales la memoria suele tener del orden de $2^{32}$ lugares de memoria, es decir 4GB ($2^{10}$ bytes es un KB, $2^{20}$ es un MB y $2^{30}$ es un GB). Se trata de la llamada memoria RAM. Actualmente la cantidad de bits que se usa para indizar es 64 (la llamada arquitectura de 64 bits), pero eso no implica que todas las palabras que se puedan formar correspondan a direcciones válidas (en computadoras personales no existe actualmente memoria de $2^{64}$ bytes, que serían como 16 mil millones de gigabytes). Conceptualmente el banco de registros del procesador es como una memoria. El motivo de que existan las dos cosas es que el banco de registros es memoria de mejor calidad y más cara que se reserva para estar dentro de la CPU, mientras que la memoria RAM es más lenta pero más económica para tener en grandes cantidades.
 
-La memoria...
+\subsection{Ejemplo de programa}
 
-La figura ... es un esquema de una computadora un poco más elaborado.
+Hagamos un ejemplo del funcionamiento de una computadora. Supongamos que tenemos 8 registros (enumerados) de un byte cada uno y que las direcciones de memoria son indizadas también por un byte. Supongamos que tenemos las siguientes instrucciones
+\begin{itemize}
+	\item {\tt LOAD}. Instrucción con dos parámetros: {\tt M} y {\tt R}, que lo que hace es cargar en el registro {\tt R} el contenido de la dirección de memoria {\tt M}.
+	\item {\tt SAVE}. Instrucción con dos parámetros: {\tt M} y {\tt R}, que lo que hace es guardar en la dirección de memoria {\tt M} el contenido del registro {\tt R}.
+	\item {\tt ADD}. Instrucción con tres parámetros: $\mathtt{R_1}$, $\mathtt{R_2}$ y $\mathtt{R_3}$ que lo que hace es sumar el contenido de los registros $\mathtt{R_1}$ y $\mathtt{R_2}$ y guardar el resultado en el registro $\mathtt{R_3}$.
+\end{itemize}
 
 
+Respecto a la operación {\tt ADD}, como los contenidos de los registros son bytes, o sea 8 bits, se considera que cada secuencia de 8 bits representa en binario un número entre $0$ y $2^8-1$. En caso de que el resultado se salga del rango, se le sustraye $2^8$ al resultado (formalmente, es la suma de $\mathbb{Z}_{2^8}$, es decir aritmética modular).
+
+Por otra parte, cada instrucción está codificada por un byte. Supongamos que el código de {\tt LOAD} es {\tt 00000001}, el de {\tt SAVE} es {\tt 00000010} y el de {\tt ADD} es {\tt 00000011}.
+
+Asumamos también que los tres primeros registros, $\mathtt{R_1}$, $\mathtt{R_2}$ y $\mathtt{R_3}$ se identifican con los bytes {\tt 00000001}, {\tt 00000010} y {\tt 00000011}.
+
+Supongamos que queremos un programa que lo que haga es sumar los contenidos de las direcciones de memoria {\tt 10000001} y {\tt 10000010} y guardar el resultado en la dirercción {\tt 10000011}. Podríamos hacerlo realizando cuatro instrucciones. Primero un {\tt LOAD} para cargar el contenido de la primera dirección de memoria en el registro 1, luego otro {\tt LOAD} para cargar el contenido de la segunda dirección de memoria en el registro 2, luego un {\tt ADD} para sumar los contenidos de los registros 1 y 2 y guardar el resultado en el registro 3 y finalmente una {\tt SAVE} para guardar el contenido del registro 3 en la tercera dirección de memoria. Primero escribamos las instrucciones de un modo un poco más abstracto (para no ir de una a los 0s y 1s).  Definamos las direcciones de memoria {\tt 10000001}, {\tt 10000010} y {\tt 10000011} como $\mathtt{M_1}$, $\mathtt{M_2}$ y $\mathtt{M_3}$, respectivamente. El programa sería lo siguiente.
+\begin{align*}
+	&\mathtt{LOAD} \quad\mathtt{M_1~R_1}\\
+	&\mathtt{LOAD}  \quad\mathtt{M_2~R_2}\\
+	&\mathtt{ADD}  \quad\mathtt{R_1~R_2~R_3}\\
+	&\mathtt{SAVE}  \quad\mathtt{M_3~R_3}
+\end{align*} 
+Esto último es lo que se considera como un programa escrito en {\sl assembler}. Es una forma de programar en la que cada línea es una instrucción del procesador, pero se pueden usar los nombres de las instrucciones y nombres de lugares de memoria, en lugar de tener que escribir todo en bits. El mismo programa escrito ahora en código máquina, es decir en bits, exactamente como iría en la memoria, sería:
+\begin{align*}
+	&\mathtt{00000001} \quad\mathtt{10000001~00000001}\\
+	&\mathtt{00000001}  \quad\mathtt{10000010~00000010}\\
+	&\mathtt{00000011}  \quad\mathtt{00000001~00000010~00000011}\\
+	&\mathtt{00000010}  \quad\mathtt{10000011~00000011}
+\end{align*}
+La organización en líneas del código es para que sea más fácil de leer, pero el programa de hecho es simplemente 0000000110000001000000010000000110000010000000100000001100 0000010000001000000011000000101000001100000011. Si tenemos en alguna parte de la memoria esa secuencia de bytes y el program counter indicando la dirección donde comienza, la computadora automáticamente lo ejecutará. Esto se ilustra en la figura \ref{fig-ArqVNEjProg}.
+
+Cabe resaltar que este es un ejemplo muy sencillo. Hay otros tipos de instrucciones (por ejemplo las que modifican el program counter y permiten realizar ciclos) y los programas suelen ser mucho más largos. De hecho, cuales son exactamente las instrucciones y cómo se codifican varía de un procesador a otro.
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.33]{ArqVNEjProg.png}
+	\caption{Esquema de una computadora con un programa.}
+	\label{fig-ArqVNEjProg}
+\end{figure}
 
 
 
