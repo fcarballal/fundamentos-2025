@@ -53,7 +53,7 @@ Otro objetivo es que desarrollen la capacidad de utilizar las computadoras con f
 El otro objetivo es que desarrollen la capacidad de entender la computación como un concepto abstracto matemático, para desarrollar programas en base a razonamiento matemático y además poder demostrar matemáticamente propiedades sobre estos programas.
 De modo sintético, este curso se trata de programación, de computación para matemática y de matemática para computación.
 
-Se espera que los contenidos de este capítulo aporten intuiciones que ayuden a comprender la materia.
+En este capítulo el objetivo principal es dar una idea básica de qué es la computación, cómo funcionan las computadoras y qué son los lenguajes de programación.
 
 
 
@@ -166,9 +166,63 @@ Los lenguajes de programación junto con los compiladores solucionan las dos des
 Se dice que un lenguaje de programación es de alto o bajo nivel según el nivel de abstracción que hay por sobre el lenguaje de máquina (instrucciones del procesador). Escribir directamente las instrucciones del procesador o código en assembler es de bajo nivel, mientras que usar un lenguaje de programación que incluye abstracciones como variables, estructuras de datos o iteraciones es de alto nivel. Entre los distintos lenguajes de programación hay varios niveles de abstracción.
 
 
-El lenguaje {\tt c} es un lenguaje de relativamente bajo nivel, pues tiene abstracciones como las previamente mencionadas, pero no está {\sl tan} lejos del lenguaje máquina. Mirando un programa escrito en {\tt c}, para alguien con experiencia no es tan difícil darse cuenta de cómo podrían ser las instrucciones en lenguaje máquina.
+El lenguaje {\tt c} (así como {\tt pascal}) es un lenguaje de relativamente bajo nivel, pues tiene abstracciones como las previamente mencionadas, pero no está {\sl tan} lejos del lenguaje máquina. Mirando un programa escrito en {\tt c}, para alguien con experiencia no es tan difícil darse cuenta de cómo podrían ser las instrucciones en lenguaje máquina.
 
 Por otra parte, el lenguaje {\tt python}, que es el que usaremos en el curso, es de muy alto nivel. Esto significa que tiene abstracciones muy complejas por sobre el lenguaje máquina, las cuales hacen que se pueda programar en base a razonamientos intuitivos sin saber cómo se haría en lenguaje de máquina. De hecho puede ocurrir que una sola línea de código en {\tt python} corresponda a cientos de instrucciones del procesador, con lo que se resuelven automáticamente detalles técnicos y se le ahorra trabajo al programador. En general usar un lenguaje de programación de alto nivel es más fácil que usar uno de bajo nivel. La desventaja que tienen es que las abstracciones pueden hacer que el programa no sea lo más eficiente posible. En general un programa escrito en {\tt c} es mucho más rápido que uno equivalente en {\tt python} (pero mucho más difícil de escribir).
+
+\chapter{Programación en python}
+
+En este capítulo se presentan los conceptos básicos para programar en el lenguaje python. Si bien se trata de un lenguaje específico, los conceptos se aplican de forma muy similar en otros. El objetivo de este material es presentar los elementos de forma conceptual. Para asimilarlos bien se recomienda complementar con otros materiales que incluyan ejemplos y además escribir y ejecutar código uno mismo (para instalación y ejecución ver sección \ref{sec-instalyEjec}).
+
+Respecto a materiales que incluyen ejemplos, se recomienda el tutorial de la documentación oficial de python: \href{https://docs.python.org/es/3.13/tutorial/index.html}{https://docs.python.org/es/3.13/tutorial/index.html}. Ese tutorial contiene mucho más que lo que se necesita para el curso. Se recomienda ver todo el capítulo 3 y algunos conceptos del 4 para ver ejemplos, pero sin preocuparse por detalles técnicos (hay explicaciones pensadas para gente que ya conoce conceptos de programación por otros lenguajes).
+
+\section{Instalación y ejecución}\label{sec-instalyEjec}
+
+Instalar python es principalmente instalar el compilador que traduce el código en python a lenguaje máquina, de modo que podamos ejecutar lo que programemos. Un detalle técnico es que en lugar de llamársele <<compilador>> se le llama <<intérprete>>. Esto es porque en lugar de pasar todo el programa a lenguaje máquina y luego ejecutarlo, va pasando las líneas de código a lenguaje máquina una por una a la vez que se van ejecutando. Se dice que es un compilador cuando primero se traduce todo a lenguaje máquina y luego se lo ejecuta.
+
+En el sistema operativo linux, en general python ya viene instalado por defecto. Por otra parte, en windows no es el caso (nos enfocaremos en este sistema operativo, ya que quienes utilizan linux es más probable que ya sepan ejecutar python). Una forma de instalarlo es descargando el instalador desde el sitio web de python y ejecutándolo (\href{https://www.python.org/downloads/}{https://www.python.org/downloads/}). Durante la instalación es importante marcar la opción de <<Add python.exe to PATH>> (figura \ref{fig-InstallPython}), por motivos que vermos a contiuación.
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.5]{InstallPython.png}
+	\caption{Es importante marcar la opción <<Add python.exe to PATH>>.}
+	\label{fig-InstallPython}
+\end{figure}
+
+Vamos a ejecutar python desde una ventana de comandos (o terminal). Esto es una ventana a través de la cual se le escriben comandos al sistema operativo. En windows se llama Windows PowerShell o símbolo del sistema.
+
+Si la instalación de python es correcta, al abrir una ventana de comandos, si se escribe python y se toca enter, comienza a ejecutarse el intérprete, el cual nos permite ir ingresando instrucciones una a una. Los tres símbolos de >~significan que el intérprete está listo para recibir instrucciones. Una primera cosa que se puede hacer es usarlo como calculadora, escribiendo expresiones aritméticas y tocando enter (figura \ref{fig-cmdPython}).
+
+Al escribir python, lo que se hace es ejecutar el intérprete. Para que esto funcione, el sistema operativo debe tener la dirección en la que python está instalado dentro de una cierta lista. Esto es lo que se hace al marcar la opción <<Add python.exe to PATH>> durante la instlación. Luego de haber ejecutado python en la ventana de comandos, el uso del intérprete ocurre dentro de esta misma ventana, sin usarse ninguna interfaz gráfica (a diferencia de la mayoría de los programas que utilizamos). En general no hay necesidad de nada más sofisticado.
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.5]{cmdPython.png}
+	\caption{Ventana de comandos con el intérprete de python.}
+	\label{fig-cmdPython}
+\end{figure}
+
+Con la modalidad de uso del intérprete que vimos, se escriben y ejecutan lineas una a una. Por otra parte, se puede escribir un archivo con varias lineas de código y pasárselo al intérprete para que lo ejecute. El código se escribe en un archivo de formato <<.py>>. Para escribir este tipo de archivos se puede usar cualquier editor de texto, pero se recomienda utilizar un editor de código especializado. Uno muy popular actualmente es visual studio code (\href{https://code.visualstudio.com/}{https://code.visualstudio.com/}). Una vez que se escribió el archivo con el código y se lo tiene guardado en una carpeta, hay que abrir una ventana de comandos en esa carpeta (cada ventana de comandos trabaja en alguna carpeta particular) e ingresar <<python>> seguido del nombre del archivo con el <<.py>> incluido. Esto se ejemplifica en la figura \ref{fig-ejecPython}.
+
+Para todo lo que mencionamos en esta sección, buscando en internet (motores de búsqueda como google, o sitios con contenido audiovisual como youtube) se encuentran muchos tutoriales. 
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.4]{ejecPython.png}
+	\caption{A la izquierda visual studio code con el código del archivo llamado programa.py. Al centro se ve la carpeta llamada ejemplo en la que está el archivo. Dentro de esa carpeta se abre la terminal. A la derecha se ve la terminal en la que se escrie <<python programa.py>>. Antes del símbolo >, a la izquierda de <<python>>, se indica la carpeta en la que está la terminal.}
+	\label{fig-ejecPython}
+\end{figure}
+\section{Tipos de datos}
+
+\section{Variables, expresiones e instrucciones}
+
+\section{Condicionales}
+
+\section{Iteraciones}
+
+\section{Procedimientos y funciones}
+
+\section{Recursión}
 
 \end{document}
 
