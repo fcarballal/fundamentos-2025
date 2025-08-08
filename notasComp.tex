@@ -172,9 +172,11 @@ Por otra parte, el lenguaje {\tt python}, que es el que usaremos en el curso, es
 
 \chapter{Programación en python}
 
-En este capítulo se presentan los conceptos básicos para programar en el lenguaje python. Si bien se trata de un lenguaje específico, los conceptos se aplican de forma muy similar en otros. El objetivo de este material es presentar los elementos de forma conceptual. Para asimilarlos bien se recomienda complementar con otros materiales que incluyan ejemplos y además escribir y ejecutar código uno mismo (para instalación y ejecución ver sección \ref{sec-instalyEjec}).
+En este capítulo se presentan los conceptos básicos para programar en el lenguaje python. Si bien se trata de un lenguaje específico, los conceptos se aplican de forma muy similar en otros. El objetivo de este material es presentar los elementos de forma conceptual. Para asimilarlos bien se recomienda complementar con otros materiales que incluyan más ejemplos y además escribir y ejecutar código uno mismo (para instalación y ejecución ver sección \ref{sec-instalyEjec}).
 
 Respecto a materiales que incluyen ejemplos, se recomienda el tutorial de la documentación oficial de python: \href{https://docs.python.org/es/3.13/tutorial/index.html}{https://docs.python.org/es/3.13/tutorial/index.html}. Ese tutorial contiene mucho más que lo que se necesita para el curso. Se recomienda ver todo el capítulo 3 y algunos conceptos del 4 para ver ejemplos, pero sin preocuparse por detalles técnicos (hay explicaciones pensadas para gente que ya conoce conceptos de programación por otros lenguajes).
+
+Cabe aclarar que lo que se ve en este curso es solo una pequeña introducción a python.
 
 \section{Instalación y ejecución}\label{sec-instalyEjec}
 
@@ -214,7 +216,75 @@ Para todo lo que mencionamos en esta sección, buscando en internet (motores de 
 \end{figure}
 \section{Tipos de datos}
 
-\section{Variables, expresiones e instrucciones}
+Una de las abstracciones que aportan los lenguajes de programación consiste en los tipos de datos. Se trata de la abstracción de distintos tipos de objetos, como enteros, texto o listas, cada uno de los cuales tiene distintos posibles valores y distintas operaciones que se pueden aplicar. Por supuesto que todos estos objetos se codifican como secuencias de bits, pero poder trabajar pensando en términos de objetos de distinto tipo hace que programar sea más intuitivo. Veamos algunos de los tipos de datos que tiene python.
+
+\subsection{Booleanos}
+
+Los booleanos conforman un tipo de datos que representa valores de verdad. Tiene solo dos objetos: {\tt True} y {\tt False}. Se tienen las operaciones booleanas básicas: {\tt not}, {\tt and} y {\tt or}. Hay algunos ejemplos en la figura \ref{fig-ejemploBool}. En general los booleanos por sí solos no suelen ser de mucha utilidad. Su principal aplicación es en condicionales e iteraciones, que estudiaremos en lo siguiente.
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.6]{ejemploBool.png}
+	\caption{Ejemplos de operaciones con booleanos.}
+	\label{fig-ejemploBool}
+\end{figure}
+
+\subsection{Enteros}
+
+Se trata de un tipo de datos para representar enteros naturales. Los objetos son {\tt 0}, {\tt 1} {\tt -1}, {\tt 2}, {\tt -2}, etc. Tienen las operaciones aritméticas elementales, que se muestran en la figura \ref{fig-ejemploInt}. Notar que la división entera es con dos barras. Una barra sola es otra operación que veremos en la brevedad. Por otra parte se tienen las operaciones de comparación, que reciben dos enteros y retornan un booleano. Se muestran en la figura \ref{fig-ejemploComp}. En el caso de la igualdad, si se escribe un solo símbolo <<=>> es una asignación, lo cual veremos más adelante.
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.6]{ejemploInt.png}
+	\caption{Operaciones aritméticas básicas. Lo que está escrito después de los \# son comentarios. Los comentarios son ignorados por el intérprete, la función que cumplen es de aclaraciones para personas que lo leen.}
+	\label{fig-ejemploInt}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.6]{ejemploComp.png}
+	\caption{Comparaciones entre enteros. }
+	\label{fig-ejemploComp}
+\end{figure}
+
+\subsection{Números de punto flotante}
+
+Se trata de una representación para operar con números reales usando información finita. De hecho lo que representan es un conjunto finito de números racionales, pero a menos de cierta aproximación se opera con ellos igual que con números reales. Estos números se escriben con la notación usual para números con parte fraccionaria o con notación científica, en ambos casos separando la parte fraccionaria con un punto. Están las mismas operaciones aritméticas y comparaciones, salvo por la división. Con punto flotante no se pueden usar // ni \%. En su lugar se usa un único / para la división de números reales. Un detalle importante es que si aplicamos la operación / a enteros, el resultado es de punto flotante, independientemente de que la división de exacta o no. Se presentan ejemplos en la figura \ref{fig-ejemploFloat}.
+
+Los números de punto flotante tienen limitaciones debido al hecho de que se pueden representar solo finitos números. Por ejemplo, si a {\tt 1.0} le sumamos un número muy chico, se redondea a {\tt 1.0}, lo cual puede ser problemático en algunas situaciones. Ignoraremos este problema, pero es un tema relevante dentro del área de análisis numérico.
+
+Hay más operaciones sobre punto flotante que se pueden realizar si importamos la biblioteca {\tt math}. Más adelante en el curso nos centraremos más en las bibliotecas, pero por ahora alcanza con saber que es algo que permite extender el lenguaje con más operaciones. Para incluir el contenido de la biblioteca {\tt math} hay que escribir la instrucción {\tt import math}. Después de eso se pueden utilizar las operaciones incluidas en esta biblioteca. Esto se hace escribiendo el nombre de la biblioteca, un punto y el nombre de la operación. Por ejemplo, tiene una operación de raiz cuadrada que se utiliza escribiendo {\tt math.sqrt()}, donde al argumento lo ponemos entre los paréntesis. Por otra parte, está la operación {\tt math.floor()} que retorna el entero más cercano a la izquierda. Esta última función retorna efectivamente un objeto de tipo entero y no un objeto de tipo punto flotante con valor entero. Se presentan ejemplos en la figura \ref{fig-ejemploMath}.
+
+Se pueden realizar la mayoría de las operaciones aritméticas entre enteros y números de punto flotante. En ese caso, el resultado es de punto flotante.
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.6]{ejemploFloat.png}
+	\caption{Ejemplos de números de punto flotante.}
+	\label{fig-ejemploFloat}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.6]{ejemploMath.png}
+	\caption{Ejemplos de operaciones de la biblioteca math.}
+	\label{fig-ejemploMath}
+\end{figure}
+
+
+\subsection{Texto}
+
+En python se puede representar texto. Esto se hace encerrándolo entre comillas simples o dobles. En general se les llama strings. Algunos ejemplos son ``Hola.'', ``345'' y ``''. No hay que confundir al string ``345'' con el entero {\tt 345}, pues el primero es simplemente una secuencia de caracteres. Con el símbolo + se puede concatenar caracteres.
+
+\subsection{Listas}
+
+Las listas conforman un tipo de datos compuesto. Cada lista es, como su nombre sugiere, una lista de objetos. Una lista se comienza y se termina con <<[>> y <<]>>. Los distintos elementos se separan con comas. Por ejemplo: {\tt[0,1,4]}, {\tt[``aa'',``a'',``'']}, {\tt [3.5, ``a'']} y {\tt[]}. Las listas pueden tener cualquier cantidad de elementos (a partir de cero) y estos elementos pueden ser de cualquier tipo, incluso otras listas. Por ejemplo {\tt [[],[]]} es una lista con dos elementos, que los dos son la lista vacía. Con + se puede concatenar listas, de modo que {\tt [[],[]] + [1]} es {\tt [[],[],1]}.
+
+
+\section{Variables y asignaciones}
+
+Las variables son abstracciones que consisten en un lugar de memoria al que se le asigna un nombre, dentro de cual se pueden guardar distintos valores. Nombres válidos de variable son secuencias de caracteres alfanuméricos y <<\_>> en los que el primer carácter no es un número. Algunos ejemplos de nombres válidos de variable son {\tt x, x1, total, altura\_caja}.
+
 
 \section{Condicionales}
 
