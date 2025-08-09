@@ -25,10 +25,10 @@
 \usepackage{ebproof}
 \usepackage{soul}
 \usepackage{hyperref}
-\usepackage{ebproof}
 \usepackage{stmaryrd}
 \usepackage{fullpage}
 \usepackage{xcolor}
+\usepackage{listings}
 
 \newcommand{\Ra}{\Rightarrow}
 \newcommand{\ra}{\rightarrow}
@@ -283,8 +283,87 @@ Las listas conforman un tipo de datos compuesto. Cada lista es, como su nombre s
 
 \section{Variables y asignaciones}
 
-Las variables son abstracciones que consisten en un lugar de memoria al que se le asigna un nombre, dentro de cual se pueden guardar distintos valores. Nombres válidos de variable son secuencias de caracteres alfanuméricos y <<\_>> en los que el primer carácter no es un número. Algunos ejemplos de nombres válidos de variable son {\tt x, x1, total, altura\_caja}.
+Las variables son abstracciones que consisten en un lugar de memoria al que se le asigna un nombre, dentro del cual se pueden guardar distintos valores. Nombres válidos de variable son secuencias de caracteres alfanuméricos y <<\_>> en los que el primer carácter no es un número, como por ejemplo {\tt x, x1, total} y {\tt altura\_caja}. Los valores pueden ser de cualquier tipo de dato.
 
+La asignación es la instrucción básicas de python para dar un nuevo valor a una variable. La sintaxis es:
+$$\mathtt{var}~=~\mathtt{expr}$$
+donde $\mathtt{var}$ es el nombre de la variable al que queremos asignar el valor y $\mathtt{expr}$ es una expresión que calcula el valor a asignar.  Es distinto al uso que se le da al símbolo <<$=$>> en matemáticas, asemejándose más al de <<$:=$>>. La expresión puede ser un objeto fijo, otra variable o algo más elaborado, por ejemplo con operaciones. Incluso puede contener la misma variable {\tt var}. En ese caso para evaluar la la expresión se usa el valor actual de la variable y luego se le asigna el resultado. Si en la expresión ponemos alguna variable aún no definida, se produce un error. Los siguientes son algunos ejemplos.
+
+\begin{verbatim}
+>>> x = 10
+>>> x #Mostrar el valor de la variable x
+10
+>>> x = 10 #asignamos el valor 10 a la variable x
+>>> x #Mostrar el valor actual de la variable x
+10
+>>> x*2
+20
+>>> x1 = x**2
+>>> x1
+100
+>>> x = x + 1
+>>> x
+11
+>>> z = 20
+>>> z = z + x2 #Usamos una variable x2 que no definimos antes. Da error
+Traceback (most recent call last):
+File "<stdin>", line 1, in <module>
+NameError: name 'x2' is not defined. Did you mean: 'x'?
+>>> lista1 = ["a","b","c"]
+>>> lista2 = [1,2,3]
+>>> lista3 = lista1 + lista2
+>>> lista3
+['a', 'b', 'c', 1, 2, 3]
+\end{verbatim}
+\section{Indizado y slicing}
+
+El indizado se trata de cómo acceder a elementos de ciertos lugares en estructuras de datos compuestas. Vamos a introducirlo para listas y strings (aunque pensando los strings como listas de caracteres es muy análogo).
+
+Dada una variable {\tt x} que tiene una lista y un entero $n$ (o una variable que contiene al entero $n$), tenemos que {\tt x[$n$]} es el elemento número $n$ de la lista. En caso de que {\tt x} contenga un string, es el carácter número~$n$. En python (así como en la mayoría de los lenguajes de programación) la enumeración comienza en 0. Por lo tanto, dada una lista {\tt x}, su primer elemento es {\tt x[0]}. Lo mismo se puede aplicar con strings, caso en el que se retorna un substring formado solamente por el caracter del lugar $n$.
+
+Tanto para listas como para strings, si el índice se pasa del último elemento, se produce un error. En python se puede usar la función {\tt len()} para determinar el largo de una lista o un string. Los índices válidos de {\tt x} van desde {\tt 0} hasta {\tt len(x)-1}.
+
+Por otra parte, el {\sl slicing} consiste en indizar por rangos, obteniéndose sublistas o substrings. La versión más sencilla, dada una lista {\tt x} y dos enteros $n,m$, es {\tt x[$n:m$]}, que resulta en la sublista de todos los elementos con índice $i$ tal que $n\leq i < m$. Notar que el extremo de abajo usa orden inclusivo y el de arriba estricto. En este caso no hay problemas si nos pasamos del último elemento. En todo caso puede quedar la lista vacía o el string vacío.
+
+También se pueden hacer asignaciones a elementos de cierto íncide, permitiendo modificar el valor de cierto lugar de una lista. Con strings no se permite hacer esto.
+
+Veamos ejemplos de todo lo anterior.
+\begin{verbatim}
+>>> x = [1,2,3,4,5]
+>>> s = "Hola 1."
+>>> x[0]
+1
+>>> s[1]
+'o'
+>>> s[4] #Va a retornar un espacio
+' '
+>>> len(s)
+7
+>>> s[6]
+'.'
+>>> s[7]
+Traceback (most recent call last):
+File "<stdin>", line 1, in <module>
+IndexError: string index out of range
+>>> x[5]
+Traceback (most recent call last):
+File "<stdin>", line 1, in <module>
+IndexError: list index out of range
+>>> x[0:2]
+[1, 2]
+>>> x[2:5]
+[3, 4, 5]
+>>> x[2:10]
+[3, 4, 5]
+>>> x[6:10]
+[]
+>>> x[1]=40
+>>> x
+[1, 40, 3, 4, 5]
+\end{verbatim}
+
+
+\section{Instrucciones}
 
 \section{Condicionales}
 
@@ -292,7 +371,6 @@ Las variables son abstracciones que consisten en un lugar de memoria al que se l
 
 \section{Procedimientos y funciones}
 
-\section{Recursión}
 
 \end{document}
 
