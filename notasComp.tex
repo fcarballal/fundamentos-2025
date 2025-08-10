@@ -38,6 +38,9 @@
 \newcommand{\Lra}{\Leftrightarrow}
 \newcommand{\lra}{\leftrightarrow}
 
+\theoremstyle{definition}
+\newtheorem{ejercicio}{Ejercicio}[section]
+
 \begin{document}
 
 \centerline{\Huge\bf Apuntes de Introducción a la Computación}
@@ -176,7 +179,7 @@ En este capítulo se presentan los conceptos básicos para programar en el lengu
 
 Respecto a materiales que incluyen ejemplos, se recomienda el tutorial de la documentación oficial de python: \href{https://docs.python.org/es/3.13/tutorial/index.html}{https://docs.python.org/es/3.13/tutorial/index.html}. Ese tutorial contiene mucho más que lo que se necesita para el curso. Se recomienda ver todo el capítulo 3 y algunos conceptos del 4 para ver ejemplos, pero sin preocuparse por detalles técnicos (hay explicaciones pensadas para gente que ya conoce conceptos de programación por otros lenguajes).
 
-Cabe aclarar que lo que se ve en este curso es solo una pequeña introducción a python. Además, las explicaciones buscan transmitir ideas del lenguaje, sin necesariamente ser totalmente correcto con las formalidades o exactamente cómo funciona por dentro. Para esto último, se recomienda nuevamente la documentación (reiterando que excede los contenidos del curso).
+Cabe aclarar que lo que se ve en este curso es solo una pequeña introducción a python. Además, las explicaciones buscan transmitir ideas del lenguaje, sin necesariamente ser totalmente correcto con las definiciones formales de los conceptos o exactamente cómo funciona por dentro. Para esto se recomienda nuevamente la documentación (reiterando que excede los contenidos del curso).
 
 \section{Instalación y ejecución}\label{sec-instalyEjec}
 
@@ -193,7 +196,7 @@ En el sistema operativo linux, en general python ya viene instalado por defecto.
 
 Vamos a ejecutar python desde una ventana de comandos (o terminal). Esto es una ventana a través de la cual se le escriben comandos al sistema operativo. En windows se llama Windows PowerShell o símbolo del sistema.
 
-Si la instalación de python es correcta, al abrir una ventana de comandos, si se escribe python y se toca enter, comienza a ejecutarse el intérprete, el cual nos permite ir ingresando instrucciones una a una. Los tres símbolos de >~significan que el intérprete está listo para recibir instrucciones. Una primera cosa que se puede hacer es usarlo como calculadora, escribiendo expresiones aritméticas y tocando enter (figura \ref{fig-cmdPython}).
+Si hicimos bien la instalación de python, al abrir una ventana de comandos, si se escribe python y se toca enter, comienza a ejecutarse el intérprete, el cual nos permite ir ingresando instrucciones una a una. Los tres símbolos de >~significan que el intérprete está listo para recibir instrucciones. Una primera cosa que se puede hacer es usarlo como calculadora, escribiendo expresiones aritméticas y tocando enter (figura \ref{fig-cmdPython}).
 
 Al escribir python, lo que se hace es ejecutar el intérprete. Para que esto funcione, el sistema operativo debe tener la dirección en la que python está instalado dentro de una cierta lista. Esto es lo que se hace al marcar la opción <<Add python.exe to PATH>> durante la instlación. Luego de haber ejecutado python en la ventana de comandos, el uso del intérprete ocurre dentro de esta misma ventana, sin usarse ninguna interfaz gráfica (a diferencia de la mayoría de los programas que utilizamos). En general no hay necesidad de nada más sofisticado.
 
@@ -211,7 +214,7 @@ Para todo lo que mencionamos en esta sección, buscando en internet (motores de 
 \begin{figure}
 	\centering
 	\includegraphics[scale=0.4]{ejecPython.png}
-	\caption{A la izquierda visual studio code con el código del archivo llamado programa.py. Al centro se ve la carpeta llamada ejemplo en la que está el archivo. Dentro de esa carpeta se abre la terminal. A la derecha se ve la terminal en la que se escrie <<python programa.py>>. Antes del símbolo >, a la izquierda de <<python>>, se indica la carpeta en la que está la terminal.}
+	\caption{A la izquierda visual studio code con el código del archivo llamado programa.py. Al centro se ve la carpeta llamada ejemplo en la que está el archivo. Dentro de esa carpeta se abre la terminal. A la derecha se ve la terminal en la que se escrie <<python programa.py>>. Antes del símbolo >, a la izquierda de <<python>>, se indica la carpeta en la que está la terminal. Si al hacer click derecho en la carpeta no aparece la opción <<abrir en terminal>>, puede aparecer al hacer click derecho manteniendo apretado mayus/shift (recordar que powershell también es una terminal). En todo caso, para problemas como este se recomienda buscar en internet, con lo cual se suele encontrar alguna solución rápidamente. También se puede abrir una terminal en cualquier sitio y cambiar la ubicación con instrucciones específicas, como {\tt cd} (buscar en internet en caso de que haya interés).}
 	\label{fig-ejecPython}
 \end{figure}
 \section{Tipos de datos}
@@ -400,12 +403,213 @@ Los números son objetos {\bf inmutables}: no se pueden modificar. Las listas, p
 
 
 
-\section{Instrucciones}
+\section{Programas e instrucciones}
+
+Digamos que programa en python es una secuencia de instrucciones que se almacena en un archivo de formato <<{\tt .py}>>. Un ejemplo básico de instrucción es la asignación, que ya vimos. Por otra parte, cuando escribimos una expresión o una variable en el intérprete y damos enter para que imprima el valor, también se trata de una instrucción. Estas últimas en general se usan solamente haciendo experimentos sencillos en el intérprete; no es común incluirlas en programas.
+
+Al ejecutar un programa (ver figura \ref{fig-ejecPython}) se ejecutan las instrucciones en el orden que están escritas.
+
+Los siguientes son otros ejemplos de instrucciones que pueden ser útiles.
+\begin{itemize}
+	\item {\tt print()}. Se trata de una instrucción que imprime en la consola lo que se le pasa como parámetro. Es la instrucción por excelencia para mostrar algo en la consola. Si se le pasa un valor directamente imprime ese valor, mientras que si se le pasa una variable imprime el contenido de la variable. Por ejemplo, la instrucción {\tt print("Hola")} imprime <<Hola>>, mientras que {\tt print(x)} imprime el valor de la variable {\tt x} (y si esta variable no tiene ningún valor, da error).
+	
+	\item {\tt input()}. Se trata de una instrucción que permite leer algo que el usuario escriba en la terminal. Es una herramienta rudimentaria para hacer programas interactivos. Lo que se escribe entre paréntesis es un texto que se le muestra al usuario antes de esperar a que este escriba algo. La forma de uso es en general  {\tt x=input()}. De esta forma, lo que escriba el usuario se guarda como un string en la variable {\tt x}. En caso de ser necesario, se puede convertirlo a otro tipo de dato, como veremos en el ejemplo a continuación. Al llegar a una instrucción de este tipo, la ejecución del programa se detiene hasta que el usuario escriba algo y presione enter.
+	
+	\item {\tt append()}. Esta instrucción es para agregar un elemento al final de una lista. A diferencia de las anteriores, es formalmente lo que se llama un {\sl método} de las listas. Dada una lista {\tt l} y un objeto $x$ que queremos agregar al final, la instrucción es {\tt l.append($x$)}. Se escribe el nombre de la lista, un punto y luego {\tt append()} con lo que querramos agregar adentro de los paréntesis. 
+\end{itemize}
+
+Veamos un ejemplo de programa en el que se usan estás dos instrucciones de entrada/salida mencionadas.
+\begin{verbatim}
+print("Hola.")
+x = input("Ingrese su numero favorito por favor: ")
+print("Su numero favorito es " + x) #Notar que x es un string.
+xNum = int(x) #Con esta instruccion, el string x se convierte en un entero.
+print("El doble de su numero favorito es ", 2*xNum)
+#Se puede imprimir mas de una cosa separando con comas.
+\end{verbatim}
+Estas líneas son el contenido de un archivo llamado <<ejemplo1.py>>. Al ejecutarlo en la terminal e ingresar <<5>> al momento del input, ocurre lo siguiente:
+\begin{verbatim}
+PS C:\Users...\Computación\Programas\ejemplo1> python ejemplo1.py
+Hola.
+Ingrese su número favorito por favor: 5
+Su número favorito es 5
+El doble de su número favorito es  10
+\end{verbatim}
+La ejecución del programa se detuvo después de mostrar <<{\tt Ingrese su número favorito por favor: }>>. Luego yo escribí <<5>>, presioné enter y ahí continuó. Si escribiera algo que no sea un entero válido, la operación {\tt int(x)} fallaría. En ese caso se imprime en la terminal una explicación del error y la ejecución se cancela.
+
+Recomiendo ejecutar este ejemplo por uno mismo. Alcanza con copiar y pegar el código escrito arriba en un archivo y ejecutarlo.
 
 \section{Condicionales}
 
+Con lo que tenemos hasta ahora, la secuencia de instrucciones que se ejecuta en un programa es algo estático. Independientemente de lo que ocurra, las instrucciones se ejecutan de la primera hasta la última. Las instrucciones, por otra parte, permiten escribir código que se ejecute o no en función de cierta condición. La sintaxis es la siguiente:
+\begin{lstlisting}[language=python]
+if cond:
+    code
+\end{lstlisting}
+Se escribe la palabra clave <<if>>, luego se escribe una condición, que es cualquier cosa que se evalue en algo de tipo booleano, luego se escribe un símbolo <<:>> y abajo, con una sangría de 4 espacios, se escribe el código que debe ejecutarse en caso de que la condición se cumpla. La sangría es muy importante, pues delimita lo que está sujeto a la condición. Ejemplifiquemos esto. En el siguiente código:
+\begin{verbatim}
+if cond:
+    instr1
+instr2
+instr3
+\end{verbatim}
+en caso de que se cumpla {\tt cond}, se ejecuta {\tt instr1}. Después de eso, independientemente de la condición, se ejecutan {\tt instr2} e {\tt instr3}. Por otra parte, consideremos ahora:
+\begin{verbatim}
+if cond:
+    instr1
+    instr2
+instr3
+\end{verbatim}
+En este caso, si se cumple {\tt cond}, entonces se ejecutan {\tt instr1} e {\tt instr2}. Después de eso, independientemente de la condición se ejecuta {\tt instr3}.
+
+La instrucción {\tt if} se puede extender con más cosas. Estas extensiones no nos permiten hacer nada que no pudiéramos hacer solamente con ifs, pero ayudan a escribir código más claro. Por ejemplo, se puede agregar una cláusula {\tt else} para algo que se ejecute en caso de que no se cumpla la condición. Con esto la instrucción queda:
+\begin{verbatim}
+if cond:
+    instr1
+else:
+    instr2
+\end{verbatim}
+De esta forma, si se cumple {\tt cond} se ejecuta {\tt instr1} y si no, se ejecuta {\tt instr2}. Es equivalente a:
+\begin{verbatim}
+if cond:
+    instr1
+if not cond:
+    instr2
+\end{verbatim}
+
+La otra extensión común es con {\tt elif}. Esto es como un {\tt else if}. Es para poner algo que se haga en caso de que la condición anterior no se cumpla pero otra condición sí se cumpla. Después de un {\tt if} se pueden poner tantos {\tt elif} como se desee. Por ejemplo, podemos escribir
+\begin{verbatim}
+if cond1:
+    instr1
+elif cond2:
+    instr2
+elif cond3:
+    instr3
+else:
+    instr4
+\end{verbatim}
+que es equivalente a:
+\begin{verbatim}
+if cond1:
+    instr1
+else:
+    if cond2:
+        instr2
+    else:
+        if cond3:
+            instr3
+        else:
+            instr4
+\end{verbatim}
+Dicho sea de paso, se puede poner ifs adentro del cuerpo de otros ifs, como acabamos de hacer para escribir algo equivalente a los elif.
+
+A modo de ejemplo, podemos escribir el siguiente programa que pide un entero al usuario y le dice si este entero es negativo, cero o positivo.
+\begin{verbatim}
+x = int(input("Ingrese un entero "))
+#De una leemos lo que escribe el usuario y lo convertimos en un entero
+if x < 0:
+    print("El número es negativo")
+elif x == 0:
+    print("El númemro es cero")
+else:
+    print("El número es positivo")
+print("Gracias.") #Esto siempre se ejecuta al final.
+\end{verbatim}
+
+\begin{ejercicio}
+	Escribir la siguiente instrucción usando cuatro ifs seguidos (sin meter un if adentro del cuerpo de otro).
+\begin{verbatim}
+if cond1:
+    instr1
+elif cond2:
+    instr2
+elif cond3:
+    instr3
+else:
+    instr4
+\end{verbatim}
+
+\end{ejercicio}
+
 \section{Iteraciones}
 
+Los distintos tipos de iteraciones son tal vez la herramienta más fuerte en la programación. Una computadora tiene la capacidad de ejecutar millones de instrucciones por segundo, pero escribir millones de instrucciones no es viable. La forma de aprovechar esta capacidad es con los ciclos, o iteraciones, que nos permiten decir a la computadora que repita algo muchas veces. De esta forma, con una cantidad razonable de lineas de código podemos hacer que la computadora ejecute muchas instrucciones. Veremos dos tipos de iteraciones, el {\tt for} y el {\tt while}.
+
+El {\tt for} (en python) nos permite iterar a travez de los elementos de una lista y hacer algo con cada uno de ellos. La sintaxis es:
+\begin{lstlisting}[language=python]
+for x in lista:
+    code
+\end{lstlisting}
+donde {\tt lista} es la lista a recorrer, {\tt x} es una variable nueva que irá recorriendo los elementos de esta lista y {\tt code} es el código que se ejecuta para cada elemento de la lista. Nuevamente la sangría del código es importante para delimitar las instrucciones que se iteran. Dentro del código se puede usar la variable {\tt x}, cuyo contenido va variando por los elementos de la lista de modo ordenado.
+
+Si el contenido de la lista es $[a_1,a_2,\dots,a_n]$, entonces lo que ocurre es lo siguiente. Primero {\tt x} toma el valor $a_1$ y se ejecuta {\tt code}. Después {\tt x} toma el valor $a_2$ y se vuelve a ejecutar {\tt code}. Sigue así sucesivamente hasta que finalmente se ejecuta {\tt code} con {\tt x} valiendo $a_n$.
+
+A modo de ejemplo:
+\begin{verbatim}
+lista = [1,2,3,4,5]
+for x in lista:
+    print(x)
+print("Fin.")
+\end{verbatim}
+imprime los elementos de la lista en orden y luego un <<Fin.>>.
+
+Una funcionalidad de python que se suele usar conjuntamente es la función {\tt range()}. Se puede pensar que {\tt range($n$)} es la lista de enteros que comienza en $0$ y termina en $n-1$. Internamente se representa distinto, pero conceptualmente es eso. Con dos parámetros se puede elegir también el comienzo. Los elementos de {\tt range($a,b$)} son los~$i$ tales que $a\leq i<b$. Esto nos permite por ejemplo escribir un programa que sume todos los números menores a cierto $n$.
+\begin{verbatim}
+n = int(input("Elija el n: "))
+suma = 0
+for i in range(n): #range(n) es [0,1,2,...,n-1]
+    suma = suma + i
+print(suma)
+\end{verbatim}
+\begin{ejercicio}
+	Escribir un programa que pida dos entradas $a$ y $b$ y retorne la suma de todos los números $n$ tales que $a\leq n\leq b$. Notar que queremos incluir a $b$ en la suma. Luego de escribir el programa hacer algunas pruebas para ver si anda bien (una buena práctica que se suele llamar {\sl testing}). Recomiendo en general hacer pruebas, independientemente de que se pida en la letra o no.
+\end{ejercicio}
+
+Pasamos ahora a los ciclos {\tt while}. En este caso, el ciclo está definido por una condición booleana y se repite el contenido hasta que esta condición sea falsa. La sintaxis es:
+\begin{lstlisting}[language=python]
+while cond:
+    code
+\end{lstlisting}
+donde {\tt cond} es algo que se evalúa a un valor booleano y {\tt code} es lo que queremos que se ejecute mientras la condición se cumpla.
+
+La ejecución es como sigue. Primero se evalúa la condición. Si esta es falsa, termina la ejecución del while. Si es verdadera, se ejecuta {\tt code}, luego se vuelve a evaluar la condición y se vuelve a tomar la misma disyuntiva, así sucesivamente hasta que la condición sea falsa.
+
+La iteración solo se detiene si la condición es falsa. En caso de que nunca se haga falsa, la ejecución entra en un bucle infinito.
+
+El while es una herramienta muy poderosa, porque nos permite hacer iteraciones que a priori no sabemos la cantidad de veces que se van a ejecutar (en un for es el largo de la lista), pero introduce el riesgo de que nuestro programa no termine nunca. En la computación, esto es algo con lo que hay que convivir, prestando atención al escribir los programas.
+
+Veamos un ejemplo que determina si un número $n\geq 2$ es primo o no. El razonamiento es el siguiente. Vamos a ir recorriendo números menores a $n$ para ver si encontramos un divisor. La idea es ir probando con números sucesivos hasta que encontremos un divisor o lleguemos a $n$.
+\begin{verbatim}
+n = int(input("Introduzca un entero mayor a 1: "))
+puede_ser_primo = True
+potencial_divisor = 2
+while puede_ser_primo and potencial_divisor < n:
+    if n % potencial_divisor == 0: #Es un divisor de n
+        puede_ser_primo = False
+    potencial_divisor = potencial_divisor + 1
+if puede_ser_primo:
+    print("Es primo")
+else:
+    print("No es primo")
+\end{verbatim}
+Podría hacerse también con un for, haciendo que se recorra todo {\tt range(2,n)} y para cada elemento se determine si es un divisor o no. La ventaja de hacerlo con el while es que una vez que encontramos un divisor, dejamos de iterar. Si por otra parte usamos el for, aunque en seguida encontraramos un divisor y ya sepamos que no es primo, seguiriamos iterando hasta llegar a $n-1$.
+\begin{ejercicio}
+	Escribir un programa para determinar si un número es primo que use for (independientemente de la desventaja que acabamos de mencionar).
+\end{ejercicio}
+
+Un uso de los while es el de hacer un programa que pueda repetirse tantas veces como el usuario quiera. Para esto lo que podemos hacer es:
+\begin{verbatim}
+continuar = True
+while continuar:
+   programa... #Aquí está el programa que debe repetirse
+               #hasta que el usuario decida lo contrario
+   respuesta = input("Si desea repetir ingrese 1, sino ingrese 0: ")
+   if respuesta == 0:
+       continuar = False
+\end{verbatim}
+\begin{ejercicio}
+	Aplicar esto último con alguno de los programas que determinan si un número es primo.
+\end{ejercicio}
 \section{Procedimientos y funciones}
 
 
