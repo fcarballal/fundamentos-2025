@@ -176,7 +176,7 @@ En este capítulo se presentan los conceptos básicos para programar en el lengu
 
 Respecto a materiales que incluyen ejemplos, se recomienda el tutorial de la documentación oficial de python: \href{https://docs.python.org/es/3.13/tutorial/index.html}{https://docs.python.org/es/3.13/tutorial/index.html}. Ese tutorial contiene mucho más que lo que se necesita para el curso. Se recomienda ver todo el capítulo 3 y algunos conceptos del 4 para ver ejemplos, pero sin preocuparse por detalles técnicos (hay explicaciones pensadas para gente que ya conoce conceptos de programación por otros lenguajes).
 
-Cabe aclarar que lo que se ve en este curso es solo una pequeña introducción a python.
+Cabe aclarar que lo que se ve en este curso es solo una pequeña introducción a python. Además, las explicaciones buscan transmitir ideas del lenguaje, sin necesariamente ser totalmente correcto con las formalidades o exactamente cómo funciona por dentro. Para esto último, se recomienda nuevamente la documentación (reiterando que excede los contenidos del curso).
 
 \section{Instalación y ejecución}\label{sec-instalyEjec}
 
@@ -283,11 +283,11 @@ Las listas conforman un tipo de datos compuesto. Cada lista es, como su nombre s
 
 \section{Variables y asignaciones}
 
-Las variables son abstracciones que consisten en un lugar de memoria al que se le asigna un nombre, dentro del cual se pueden guardar distintos valores. Nombres válidos de variable son secuencias de caracteres alfanuméricos y <<\_>> en los que el primer carácter no es un número, como por ejemplo {\tt x, x1, total} y {\tt altura\_caja}. Los valores pueden ser de cualquier tipo de dato.
+Las variables son abstracciones que consisten en un nombre que se puede usar para referenciar objetos de distintos tipos de datos. Se puede pensar que el objeto referenciado por la variable es su valor. Nombres válidos de variable son secuencias de caracteres alfanuméricos y <<\_>> en los que el primer carácter no es un número, como por ejemplo {\tt x, x1, total} y {\tt altura\_caja}.
 
-La asignación es la instrucción básicas de python para dar un nuevo valor a una variable. La sintaxis es:
+La asignación es la instrucción básica de python para dar un nuevo valor a una variable. La sintaxis es:
 $$\mathtt{var}~=~\mathtt{expr}$$
-donde $\mathtt{var}$ es el nombre de la variable al que queremos asignar el valor y $\mathtt{expr}$ es una expresión que calcula el valor a asignar.  Es distinto al uso que se le da al símbolo <<$=$>> en matemáticas, asemejándose más al de <<$:=$>>. La expresión puede ser un objeto fijo, otra variable o algo más elaborado, por ejemplo con operaciones. Incluso puede contener la misma variable {\tt var}. En ese caso para evaluar la la expresión se usa el valor actual de la variable y luego se le asigna el resultado. Si en la expresión ponemos alguna variable aún no definida, se produce un error. Los siguientes son algunos ejemplos.
+donde $\mathtt{var}$ es el nombre de la variable a la que queremos asignar un objeto (es decir, hacer que la variable referencia al objeto) y $\mathtt{expr}$ es una expresión que determina el objeto a asignar.  Es distinto al uso que se le da al símbolo <<$=$>> en matemáticas (en particular, los lados tienen roles distintos), asemejándose más al de <<$:=$>>. La expresión puede ser un objeto fijo, una variable o algo más elaborado, por ejemplo con operaciones. Incluso puede contener la misma variable {\tt var}. En ese caso para evaluar la la expresión se usa el valor actual de la variable y luego se le asigna el resultado. Si en la expresión ponemos alguna variable aún no definida, se produce un error. Los siguientes son algunos ejemplos.
 
 \begin{verbatim}
 >>> x = 10
@@ -315,6 +315,7 @@ NameError: name 'x2' is not defined. Did you mean: 'x'?
 >>> lista3
 ['a', 'b', 'c', 1, 2, 3]
 \end{verbatim}
+Es importante que en python las variables no guardan un valor dentro de ellas, sino que en realidad referencian a un objeto que está fuera en otro lado. Volveremos esto en la sección \ref{sec-memoriaCompartida}.
 \section{Indizado y slicing}
 
 El indizado se trata de cómo acceder a elementos de ciertos lugares en estructuras de datos compuestas. Vamos a introducirlo para listas y strings (aunque pensando los strings como listas de caracteres es muy análogo).
@@ -361,6 +362,42 @@ IndexError: list index out of range
 >>> x
 [1, 40, 3, 4, 5]
 \end{verbatim}
+
+\subsection{Referencias múltiples}\label{sec-memoriaCompartida}
+
+Vamos a tratar un detalle un poco térnico. La mayoría de las veces no es relevante, pero a veces puede ser fuente de errores inesperados.
+
+Recordar que las variables no contienen los objetos, sino que los referencian. Esto es particularmente importante con listas porque estas se pueden modificar, entonces si dos variables referencian la misma lista y desde una la modificamos, esto se reflejará en la otra variable. Veamos un ejemplo.
+\begin{verbatim}
+>>> l1 = [1,2,3]
+>>> l2 = l1
+>>> l2[0] = 0
+>>> l1
+[0, 2, 3]
+\end{verbatim}
+Esto ocurrió porque la asignación {\tt l2=l1} lo que hizo es que la variable {\tt l2} referencie la misma lista que {\tt l1}. Para que la lista de {\tt l2} sea una lista distinta a la de {\tt l1} pero con los mismos valores, habría que escribir {\tt l2 = l1.copy()}.
+
+Con números una asignación de una variable a otra también hace que referencie al mismo objeto, pero no surgen problemas. Por ejemplo:
+\begin{verbatim}
+>>> x=3
+>>> y = x
+>>> y = 0
+>>> x
+3
+\end{verbatim}
+La primera instrucción liga la variable {\tt x} al objeto {\tt 3}. La segunda instrucción liga la variable {\tt y} al mismo objeto. Sin embargo, la tercara instrucción lo que hace es ligar la variable {\tt y} a un nuevo objeto {\tt 0}, sin alterar el objeto {\tt 3} preexistente.
+
+De hecho los dos ejemplos que presentamos son muy distintos. La asignación {\tt y=0} modifica a qué está asignada la variable {\tt y}; se podría decir que modifica la variable. Por otra parte, la operación {\tt l2[0]=0} modifica la lista referenciado por la variable {\tt l2}, sin cambiar el hecho de que esta variable está ligada a esa lista; se podría decir que modifica al objeto ligado a la variable y no a la variable. Ver la figura \ref{fig-ejemploVarMem}.
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.3]{ejemploVarMem.png}
+	\caption{Ilustración de ejemplo presentado en la sección \ref{sec-memoriaCompartida}}
+	\label{fig-ejemploVarMem}
+\end{figure}
+
+Los números son objetos {\bf inmutables}: no se pueden modificar. Las listas, por otra parte, son objetos {\bf mutables}, lo cual significa que pueden ser modificadas. Un ejemplo es cuando se modifica uno de sus elementos, como al ejecutar {\tt l2[0]=0}. Esta distinción de mutable o inmutable se aplica a los objetos de python en general. Los strings por ejemplo también son inmutables.
+
 
 
 \section{Instrucciones}
