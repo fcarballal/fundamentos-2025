@@ -610,9 +610,118 @@ while continuar:
 \begin{ejercicio}
 	Aplicar esto último con alguno de los programas que determinan si un número es primo.
 \end{ejercicio}
-\section{Procedimientos y funciones}
+\section{Funciones}
 
+En programación se le llama función a un fragmento de código separado del resto que puede recibir parámetros y retornar valores. Proviene del concepto matemático de función. No permiten hacer nada que no se pudiera hacer con lo que ya vimos, pero son útiles para que los programas queden más fáciles de entender y para reutilizar código. Esto último es porque una función se define una sola vez y se puede utilizar fácilmente como parte de distintos programas. La sintaxis es la siguiente:
+\begin{lstlisting}[language=python]
+def nombre_fun(p_1,...,p_n):
+    code	
+\end{lstlisting}
+Se escribe la palabra reservada {\tt def}, luego el nombre de la función, luego una secuencia de parámetros (cero o más), que son nombres de variables, luego un <<:>> y luego el código con sangría. En este código se puede usar la instrucción especial {\tt return} para que la función retorne un valor. La idea es que en términos matemáticos es una función que se aplica a los parámetros y su imagen es lo que se indica con {\tt return}. A modo de ejemplo, la función valor absoluto se puede escribir de la siguiente forma:
+\begin{verbatim}
+def val_abs(x):
+    if x >= 0:
+        return x
+    else:
+        return -x
+\end{verbatim}
+Si en un programa ponemos solamente la definición de la función y no escribimos nada más después, ese programa no hace nada. Por otra parte, después de la definición podemos ejecutarla en un argumento $x$ escribiendo {\tt val\_abs($x$)}. 
 
+\begin{verbatim}
+def val_abs(x):
+    if x >= 0:
+        return x
+    else:
+        return -x
+valor1 = val_abs(0)
+valor2 = val_abs(6)
+valor3 = val_abs(-46)
+print(valor1, valor2, valor3)
+\end{verbatim}
+Si se ejecuta este programa lo que se ve en consola es que imprime <<0 6 46>>. Notar que escribimos la función una vez y pudimos ejecutarla para tres argumentos distintos; en esto radica la utilidad de las funciones.
+
+Hagamos un ejemplo un poco más complejo vinculado con números primos. A partir del código que ya hicimos en la sección de iteraciones podemos escribir una función que reciba como parámetro un número y retorne un booleano que diga si es primo o no.
+\begin{verbatim}
+def es_primo(n):
+    if n<2:
+        return False
+    puede_ser_primo = True
+    potencial_divisor = 2
+    while puede_ser_primo and potencial_divisor < n:
+        if n % potencial_divisor == 0: #Es un divisor de n
+            puede_ser_primo = False
+        potencial_divisor = potencial_divisor + 1
+    return puede_ser_primo
+\end{verbatim}
+Cabe aclarar que cuando se ejecuta un {\tt return} la función termina, independientemente de que después haya más código o no. Veamos varios ejemplos de usos para esta función. Primero, para hacer lo mismo que antes alcanza con después escribir:
+\begin{verbatim}
+n = int(input("Introduzca un entero mayor a 1: "))
+if es_primo(n):
+    print("Es primo")
+else:
+    print("No es primo")
+\end{verbatim}
+Por otra parte, podemos hacer una función que pida dos números e imprima todos los primos comprendidos entre ellos.
+\begin{verbatim}
+min = int(input("Introduzca el extremo inferior: "))
+max = int(input("Introduzca el extremo superior: "))
+for n in range(min, max+1): #Incluyo max
+    if es_primo(n):
+        print(n, end=",") #Lo de end es para que queden en la misma línea
+                          #separados por comas
+\end{verbatim}
+Por último escribamos un programa que dado un $n$ nos diga cual es el primer primo mayor a $n$. Como los primos son infinitos, sabemos que el programa termina para cualquier entrada.
+\begin{verbatim}
+n = int(input("Introduzca un entero: "))
+while not es_primo(n):
+    n = n + 1
+print("El mínimo primo mayor o igual es ", n)
+\end{verbatim}
+Notar como dato interesante que la terminación de este programa para cada entrada es de hecho equivalente a la existencia de infinitos primos. La cuestión de si un programa termina o no puede un problema difícil. No siempre se puede resolver empíricamente, sino que en general hay que hacer una demostración. El motivo de esto es que si lleva mucho tiempo sin terminar, no tenemos forma de saber si es que no va a terminar nunca o que sí va a terminar pero más adelante.
+
+Una función puede no tener parámetros y también puede no retornar nada. En los casos en los que no retorna nada (simplemente hace ciertas cosas), lo cual se aparta mucho del concepto matemático de función, en algunos lenguajes se les llama procedimientos. En python se les llama igual funciones porque en realidad retornan un valor trivial que no se muestra (detalle formal). Un ejemplo de función que no tiene parámetros ni retorna nada sería:
+\begin{verbatim}
+def bienvenida():
+    t = input("Hola, ¿cómo te llamas? ")
+    print("Bienvenid@, ",t)
+\end{verbatim}
+Se trata de una función que le da la bienvenida al usuario. Dentro de un programa podría ejecutarse al principio, poniendo <<{\tt bienvenida()}>> como primera línea y no afectaría en nada para el resto del programa.
+
+\subsection{Variables locales y globales}
+Veamos un par de detalles técnicos sobre nombres de variables y funciones. Primero, las variables que se definen dentro de una función se llaman {\bf locales} y solo están definidas dentro del cuerpo de la función. Esto es para que el funcionamiento interno de la función sea bastante independiente al resto del código. En general la idea es que la función interactúa con el resto del programa solamente (o principalmente) mediante los parámetros y el valor que retorna. Veamos un ejemplo.
+\begin{verbatim}
+def f(n):
+    x = 10
+    return n + x
+y = f(3)
+print(x) #Esto da error porque x solo está definida adentro de la función
+\end{verbatim}
+
+Por otra parte, las variables que se definen antes de la definición de la función pueden usarse dentro de esta y también siguen definidas después. A estas variables se les llama {\bf globales}. Por ejemplo:
+\begin{verbatim}
+x = 10
+def f(n):
+    return n + x #Usamos la variable x definida antes
+y = f(3)
+print(x) #Ahora acá no da error
+\end{verbatim}
+Sin embargo, este comportamiento se da si solamente leemos el contenido de la variable sin modificarla. En caso de que hagamos una asignación a {\tt x}, no la realizará con la variable global, sino que creará una variable local con el mismo nombre que dentro de la función remplazará a la variable global. Por lo tanto, los cambios que se hagan no se reflejarán afuera. Por ejemplo:
+\begin{verbatim}
+x = 5 #Variable global
+def f(n):
+    x= 10 #Asigna 10 a una nueva variable local sin modificar la global
+    return n + x #Acá x es la variable local, no la global
+y = f(3) #el valor de f(3) es 13
+print(x) #Imprime 5, que es el valor de la variable global
+\end{verbatim}
+
+Por último, una función que se define antes que otra puede usarse en la segunda. El vínculo de esto con lo que venimos viendo es que el nombre de la primera función es como una variable global para la segunda.
+\begin{verbatim}
+def f1(n):
+    return n + 5
+def f2(x):
+    return 5*f1(x)
+\end{verbatim}
 \end{document}
 
 
